@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
 	<modules>
 		<module>cubemall-product</module>
-	</modules>
+        <module>com.kkb.cubemail</module>
+    </modules>
 
 </project>
