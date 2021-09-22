@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kkb.cubemall.product.dao.CategoryDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.kkb.cubemall.product.entity.CategoryEntity" id="categoryMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="goodsNum" column="goods_num"/>
+        <result property="isShow" column="is_show"/>
+        <result property="isMenu" column="is_menu"/>
+        <result property="seq" column="seq"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="templateId" column="template_id"/>
+    </resultMap>
+
+
+</mapper>

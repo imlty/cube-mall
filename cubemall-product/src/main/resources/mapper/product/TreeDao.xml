@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kkb.cubemall.product.dao.TreeDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.kkb.cubemall.product.entity.TreeEntity" id="treeMap">
+        <result property="nodeId" column="node_id"/>
+        <result property="name" column="name"/>
+        <result property="lft" column="lft"/>
+        <result property="rgt" column="rgt"/>
+    </resultMap>
+
+
+</mapper>
