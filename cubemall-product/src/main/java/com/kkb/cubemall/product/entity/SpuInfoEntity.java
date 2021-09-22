@@ -11,9 +11,9 @@ import lombok.Data;
 /**
  * spu信息
  * 
- * @author imlty
- * @email imlty626@qq.com
- * @date 2021-09-08 00:57:02
+ * @author peige
+ * @email peige@gmail.com
+ * @date 2021-04-19 18:24:09
  */
 @Data
 @TableName("tb_spu_info")

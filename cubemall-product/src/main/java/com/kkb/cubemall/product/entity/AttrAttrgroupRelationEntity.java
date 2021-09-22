@@ -2,16 +2,17 @@ package com.kkb.cubemall.product.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
+import lombok.Data;
 
 /**
  * 属性分组关联表
  * 
- * @author imlty
- * @email imlty626@qq.com
- * @date 2021-09-08 00:57:02
+ * @author peige
+ * @email peige@gmail.com
+ * @date 2021-04-19 18:24:09
  */
 @Data
 @TableName("tb_attr_attrgroup_relation")

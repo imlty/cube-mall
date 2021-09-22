@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>com.kkb.cubemall</groupId>
     <artifactId>cubemall</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>cubemall</name>
-    <description>模仿商城</description>
+    <description>魔方商城</description>
     <packaging>pom</packaging>
-	<modules>
-		<module>cubemall-product</module>
-        <module>com.kkb.cubemail</module>
+
+    <modules>
+        <module>cubemall-product</module>
+        <module>renren-fast</module>
+        <module>renren-generator</module>
+        <module>cubemall-common</module>
     </modules>
 
 </project>

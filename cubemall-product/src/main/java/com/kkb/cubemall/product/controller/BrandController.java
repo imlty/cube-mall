@@ -1,23 +1,28 @@
 package com.kkb.cubemall.product.controller;
 
-import com.kkb.common.utils.PageUtils;
-import com.kkb.common.utils.R;
-import com.kkb.cubemall.product.entity.BrandEntity;
-import com.kkb.cubemall.product.service.BrandService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.Arrays;
 import java.util.Map;
+
+import com.kkb.cubemall.common.utils.PageUtils;
+import com.kkb.cubemall.common.utils.R;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.kkb.cubemall.product.entity.BrandEntity;
+import com.kkb.cubemall.product.service.BrandService;
 
 
 
 /**
  * 品牌表
  *
- * @author imlty
- * @email imlty626@qq.com
- * @date 2021-09-08 01:34:38
+ * @author peige
+ * @email peige@gmail.com
+ * @date 2021-04-22 11:03:03
  */
 @RestController
 @RequestMapping("product/brand")
