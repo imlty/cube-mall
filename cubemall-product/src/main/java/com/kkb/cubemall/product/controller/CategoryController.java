@@ -88,7 +88,11 @@ public class CategoryController {
     @RequestMapping("/delete")
     //@RequiresPermissions("product:category:delete")
     public R delete(@RequestBody Integer[] ids) {
-        categoryService.removeByIds(Arrays.asList(ids));
+//        categoryService.removeByIds(Arrays.asList(ids));
+        // 采用逻辑删除
+        // TODO: 删除之前检查是否被别的地方所引用
+        // 逻辑删除
+        categoryService.removeMenuByIds(Arrays.asList(ids));
 
         return R.ok();
     }

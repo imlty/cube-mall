@@ -54,6 +54,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         return levelOneMenus;
     }
 
+    @Override
+    public void removeMenuByIds(List<Integer> asList) {
+        // TODO: 检查当前要删除的菜单是否被别的地方所引用
+        //
+        baseMapper.deleteBatchIds(asList);
+    }
+
     /**
      * 递归差找指定分类的所有子分类（ 所有菜单的子菜单 ）
      *
