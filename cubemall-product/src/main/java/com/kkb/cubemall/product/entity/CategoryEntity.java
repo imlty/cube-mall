@@ -1,10 +1,14 @@
 package com.kkb.cubemall.product.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -35,6 +39,7 @@ public class CategoryEntity implements Serializable {
 	/**
 	 * 是否显示
 	 */
+	@TableLogic(delval = "0",value = "1")
 	private String isShow;
 	/**
 	 * 是否导航
@@ -52,5 +57,11 @@ public class CategoryEntity implements Serializable {
 	 * 模板ID
 	 */
 	private Integer templateId;
+
+	/**
+	 * 子分类
+	 */
+	@TableField(exist = false)
+	private List<CategoryEntity> children;
 
 }
