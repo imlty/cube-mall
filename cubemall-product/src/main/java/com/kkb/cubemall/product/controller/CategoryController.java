@@ -57,7 +57,7 @@ public class CategoryController {
     public R info(@PathVariable("id") Integer id) {
         CategoryEntity category = categoryService.getById(id);
 
-        return R.ok().put("category", category);
+        return R.ok().put("data", category);
     }
 
     /**

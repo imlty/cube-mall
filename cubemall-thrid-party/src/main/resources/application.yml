@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: cubemall-third-part
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    alicloud:
+      access-key: ${AK}
+      secret-key: ${Sk}
+      oss:
+        bucket: ${BUCKET}
+        endpoint: oss-cn-chengdu.aliyuncs.com
+server:
+  port: 30000
