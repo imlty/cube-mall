@@ -20,11 +20,14 @@ import java.util.Map;
 public class OssController {
 
     @Value("${spring.cloud.alicloud.access-key}")
-    String accessKey; // 请填写您的AccessKeySecret。
+    String accessId; // 请填写您的AccessKeySecret。
+
     @Value("${spring.cloud.alicloud.secret-key}")
-    String accessId; // 请填写您的AccessKeyId。
+    String accessKey; // 请填写您的AccessKeyId。
+
     @Value("${spring.cloud.alicloud.oss.endpoint}")
     String endpoint; // 请填写您的 endpoint。
+
     @Value("${spring.cloud.alicloud.oss.bucket}")
     String bucket; // 请填写您的 bucketname 。
     @Autowired
