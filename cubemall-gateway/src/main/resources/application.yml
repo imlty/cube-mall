@@ -12,6 +12,14 @@ spring:
           predicates:
             - Query=url, qq
 
+        # cubemall-third-part 微服务 /api/thirdparty/** -> /**
+        - id: third-party_route
+          uri: lb://cubemall-third-part
+          predicates:
+            - Path=/api/thirdparty/**
+          filters:
+            - RewritePath=/api/thirdparty/(?<segment>/?.*),/$\{segment}
+
         # product 微服务 /api/product/** -> /**
         - id: product_route
           uri: lb://cubemall-product
