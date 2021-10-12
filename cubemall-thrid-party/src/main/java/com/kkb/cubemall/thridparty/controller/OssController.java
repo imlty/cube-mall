@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -34,7 +35,8 @@ public class OssController {
 
         String host = "https://" + bucket + "." + endpoint; // host的格式为 bucketname.endpoint
 
-        String dir = "user-dir-prefix/"; // 用户上传文件时指定的前缀。
+        String format = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String dir = format+"/"; // 用户上传文件时指定的前缀。
         Map<String, Object> respMap = new LinkedHashMap<String, Object>();
 
         try {
@@ -64,6 +66,6 @@ public class OssController {
         } finally {
             ossClient.shutdown();
         }
-        return R.ok(respMap);
+        return R.ok().put("data",respMap);
     }
 }
