@@ -5,6 +5,11 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+    alicloud:
+      access-key: LTAI5tFSVvpouTYsHxnTaeyx
+      secret-key: gZ0uMz4CCwnbt35zlIfZAu0kZCuoz3
+      oss:
+        endpoint: oss-cn-chengdu.aliyuncs.com
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://112.124.39.204:3306/cube_goods?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
