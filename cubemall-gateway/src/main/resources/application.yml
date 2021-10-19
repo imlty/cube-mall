@@ -20,7 +20,7 @@ spring:
           filters:
             - RewritePath=/api/thirdparty/(?<segment>/?.*),/$\{segment}
 
-        # product 微服务 /api/product/** -> /**
+        # product 微服务 /api/product/** -> /product/**
         - id: product_route
           uri: lb://cubemall-product
           predicates:
