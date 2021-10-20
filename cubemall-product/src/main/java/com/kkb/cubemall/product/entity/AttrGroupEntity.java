@@ -1,5 +1,6 @@
 package com.kkb.cubemall.product.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -44,5 +45,9 @@ public class AttrGroupEntity implements Serializable {
 	 * 分类ID
 	 */
 	private Integer categoryId;
-
+	/**
+	 * 完整的 categoryId 的路径
+	 */
+	@TableField(exist = false )
+	private Long[] categoryPath;
 }

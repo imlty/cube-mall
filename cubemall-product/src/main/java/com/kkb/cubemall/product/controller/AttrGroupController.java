@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.kkb.cubemall.common.utils.PageUtils;
 import com.kkb.cubemall.common.utils.R;
+import com.kkb.cubemall.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +31,8 @@ public class AttrGroupController {
     @Autowired
     private AttrGroupService attrGroupService;
 
+    @Autowired
+    private CategoryService categoryService;
     /**
      * 列表
      */
@@ -49,7 +52,11 @@ public class AttrGroupController {
     //@RequiresPermissions("product:attrgroup:info")
     public R info(@PathVariable("id") Long id){
 		AttrGroupEntity attrGroup = attrGroupService.getById(id);
-
+        // 查询出 categoryPath 的路径
+        Integer categoryId = attrGroup.getCategoryId();
+        // 查询 categoryId 的祖宗 id
+        Long[] categoryPath = categoryService.findCategoryPath(categoryId);
+        attrGroup.setCategoryPath(categoryPath);
         return R.ok().put("attrGroup", attrGroup);
     }
 
