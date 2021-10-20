@@ -1,5 +1,6 @@
 package com.kkb.cubemall.product.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -33,4 +34,9 @@ public class CategoryBrandEntity implements Serializable {
 	 */
 	private Integer brandId;
 
+	@TableField(exist = false)
+	private String categoryName;
+
+	@TableField(exist = false)
+	private String brandName;
 }

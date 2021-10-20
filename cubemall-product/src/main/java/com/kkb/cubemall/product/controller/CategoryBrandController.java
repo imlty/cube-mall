@@ -1,19 +1,18 @@
 package com.kkb.cubemall.product.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.kkb.cubemall.common.utils.PageUtils;
 import com.kkb.cubemall.common.utils.R;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.kkb.cubemall.product.entity.CategoryBrandEntity;
+import com.kkb.cubemall.product.service.BrandService;
 import com.kkb.cubemall.product.service.CategoryBrandService;
+import com.kkb.cubemall.product.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -28,6 +27,29 @@ import com.kkb.cubemall.product.service.CategoryBrandService;
 public class CategoryBrandController {
     @Autowired
     private CategoryBrandService categoryBrandService;
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private BrandService brandService;
+
+    @RequestMapping("/category/list")
+    //@RequiresPermissions("product:categorybrand:list")
+    public R categoryList(@RequestParam("brandId") Long brand_id){
+
+        // 查询关联表
+        List<CategoryBrandEntity> data = categoryBrandService.list(
+                new QueryWrapper<CategoryBrandEntity>().eq("brand_id", brand_id)
+        );
+
+        // 通过关联表，查询 category
+        data.forEach(entity ->{
+            entity.setBrandName(brandService.getById(entity.getBrandId()).getName());
+            entity.setCategoryName(categoryService.getById(entity.getCategoryId()).getName());
+        });
+        return R.ok().put("data", data);
+    }
 
     /**
      * 列表
@@ -79,9 +101,13 @@ public class CategoryBrandController {
      */
     @RequestMapping("/delete")
     //@RequiresPermissions("product:categorybrand:delete")
-    public R delete(@RequestBody Integer[] ids){
-		categoryBrandService.removeByIds(Arrays.asList(ids));
+    public R delete(@RequestBody CategoryBrandEntity categoryBrand){
 
+        categoryBrandService.remove(
+                new QueryWrapper<CategoryBrandEntity>()
+                        .eq("brand_id",categoryBrand.getBrandId())
+                        .eq("category_id",categoryBrand.getCategoryId())
+        );
         return R.ok();
     }
 
