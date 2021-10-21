@@ -1,22 +1,15 @@
 package com.kkb.cubemall.product.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
 import com.kkb.cubemall.common.utils.PageUtils;
 import com.kkb.cubemall.common.utils.R;
+import com.kkb.cubemall.product.service.AttrService;
 import com.kkb.cubemall.product.vo.AttrRespVo;
 import com.kkb.cubemall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.kkb.cubemall.product.entity.AttrEntity;
-import com.kkb.cubemall.product.service.AttrService;
-
+import java.util.Arrays;
+import java.util.Map;
 
 
 /**
@@ -34,11 +27,18 @@ public class AttrController {
 
     /**
      * 列表
+     * product/attr/base/list/{categoryId} 基本属性列表查询
+     * product/attr/sale/list/{categoryId} 销售属性列表查询
      */
-    @RequestMapping("/base/list/{categoryId}")
+    @RequestMapping("/{attrType}/list/{categoryId}")
     //@RequiresPermissions("product:attr:list")
-    public R list(@RequestParam Map<String, Object> params,@PathVariable("categoryId") Long categoryId){
-        PageUtils page = attrService.queryBaseAttrPage(params,categoryId);
+    public R list(
+            @RequestParam Map<String, Object> params,
+            @PathVariable("attrType") String attrType,
+            @PathVariable("categoryId") Long categoryId
+    ) {
+
+        PageUtils page = attrService.queryBaseAttrPage(params, attrType, categoryId);
 
         return R.ok().put("page", page);
     }
@@ -49,8 +49,8 @@ public class AttrController {
      */
     @RequestMapping("/info/{id}")
     //@RequiresPermissions("product:attr:info")
-    public R info(@PathVariable("id") Long id){
-		AttrRespVo attrRespVo = attrService.getAttrInfo(id);
+    public R info(@PathVariable("id") Long id) {
+        AttrRespVo attrRespVo = attrService.getAttrInfo(id);
 
         return R.ok().put("attr", attrRespVo);
     }
@@ -60,8 +60,8 @@ public class AttrController {
      */
     @RequestMapping("/save")
     //@RequiresPermissions("product:attr:save")
-    public R save(@RequestBody AttrVo attrVo){
-		attrService.saveAttrVo(attrVo);
+    public R save(@RequestBody AttrVo attrVo) {
+        attrService.saveAttrVo(attrVo);
 
         return R.ok();
     }
@@ -71,8 +71,8 @@ public class AttrController {
      */
     @RequestMapping("/update")
     //@RequiresPermissions("product:attr:update")
-    public R update(@RequestBody AttrVo attrVo){
-		attrService.updateAttr(attrVo);
+    public R update(@RequestBody AttrVo attrVo) {
+        attrService.updateAttr(attrVo);
 
         return R.ok();
     }
@@ -82,8 +82,8 @@ public class AttrController {
      */
     @RequestMapping("/delete")
     //@RequiresPermissions("product:attr:delete")
-    public R delete(@RequestBody Long[] ids){
-		attrService.removeByIds(Arrays.asList(ids));
+    public R delete(@RequestBody Long[] ids) {
+        attrService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

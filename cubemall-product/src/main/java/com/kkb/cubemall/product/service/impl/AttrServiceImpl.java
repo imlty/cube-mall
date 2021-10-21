@@ -77,12 +77,18 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
      * 获取指定分类下的基本属性
      *
      * @param params
+     * @param attrType
      * @param categoryId
      * @return
      */
     @Override
-    public PageUtils queryBaseAttrPage(Map<String, Object> params, Long categoryId) {
+    public PageUtils queryBaseAttrPage(Map<String, Object> params, String attrType, Long categoryId) {
         QueryWrapper<AttrEntity> attrEntityQueryWrapper = new QueryWrapper<>();
+        if ("base".equalsIgnoreCase(attrType)) {
+            attrEntityQueryWrapper.eq("attr_type", 1);
+        } else if ("sale".equalsIgnoreCase(attrType)) {
+            attrEntityQueryWrapper.eq("attr_type", 0);
+        }
         if (categoryId != 0) {
             attrEntityQueryWrapper.eq("category_id", categoryId);
         }
@@ -173,13 +179,14 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
     /**
      * 规格参数的属性修改
      * 【修改包括：attr表 、attrAttrGroupRelation表 、attrAttrGroup表 、 category表】
+     *
      * @param attrVo
      */
     @Override
     public void updateAttr(AttrVo attrVo) {
         // 基本属性
         AttrEntity attrEntity = new AttrEntity();
-        BeanUtils.copyProperties(attrVo,attrEntity);
+        BeanUtils.copyProperties(attrVo, attrEntity);
         this.updateById(attrEntity);
         // 修改其他表
         AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = new AttrAttrgroupRelationEntity();
@@ -191,13 +198,13 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
                         new QueryWrapper<AttrAttrgroupRelationEntity>()
                                 .eq("attr_id", attrVo.getId())
                 );
-        if (count > 0){
+        if (count > 0) {
             attrAttrgroupRelationService.update(
                     attrAttrgroupRelationEntity,
                     new UpdateWrapper<AttrAttrgroupRelationEntity>()
                             .eq("attr_id", attrVo.getId())
             );
-        }else {
+        } else {
             attrAttrgroupRelationService.save(attrAttrgroupRelationEntity);
         }
     }
