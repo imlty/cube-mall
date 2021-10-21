@@ -14,6 +14,7 @@ import com.kkb.cubemall.product.entity.AttrGroupEntity;
 import com.kkb.cubemall.product.entity.CategoryEntity;
 import com.kkb.cubemall.product.service.AttrAttrgroupRelationService;
 import com.kkb.cubemall.product.service.AttrService;
+import com.kkb.cubemall.product.service.CategoryService;
 import com.kkb.cubemall.product.vo.AttrRespVo;
 import com.kkb.cubemall.product.vo.AttrVo;
 import org.apache.commons.lang3.StringUtils;
@@ -37,6 +38,9 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
     @Autowired
     private CategoryDao categoryDao;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -131,6 +135,38 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         PageUtils pageUtils = new PageUtils(page);
         pageUtils.setList(attrRespVos);
         return pageUtils;
+    }
+
+    /**
+     * @param id
+     * @return
+     */
+    @Override
+    public AttrRespVo getAttrInfo(Long id) {
+        AttrRespVo attrRespVo = new AttrRespVo();
+        AttrEntity attrEntity = this.getById(id);
+        BeanUtils.copyProperties(attrEntity, attrRespVo);
+        AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = attrAttrgroupRelationService.getBaseMapper().selectOne(
+                new QueryWrapper<AttrAttrgroupRelationEntity>()
+                        .eq("attr_id", attrEntity.getId())
+        );
+        // 设置 attrRespVO names
+        if (attrAttrgroupRelationEntity != null) {
+            AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(attrAttrgroupRelationEntity.getAttrGroupId());
+            if (attrGroupEntity != null) {
+                attrRespVo.setAttrGroupId(attrGroupEntity.getId());
+                attrRespVo.setGroupName(attrGroupEntity.getName());
+                CategoryEntity categoryEntity = categoryDao.selectById(attrGroupEntity.getCategoryId());
+                if (categoryEntity != null) {
+                    attrRespVo.setCategoryName(categoryEntity.getName());
+                }
+            }
+        }
+        // 设置分类目录路径
+        Long[] categoryPath = categoryService.findCategoryPath(attrEntity.getCategoryId());
+        attrRespVo.setCategoryPath(categoryPath);
+
+        return attrRespVo;
     }
 
 }

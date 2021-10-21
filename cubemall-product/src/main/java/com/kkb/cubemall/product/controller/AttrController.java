@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.kkb.cubemall.common.utils.PageUtils;
 import com.kkb.cubemall.common.utils.R;
+import com.kkb.cubemall.product.vo.AttrRespVo;
 import com.kkb.cubemall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,14 +45,14 @@ public class AttrController {
 
 
     /**
-     * 信息
+     * 指定属性信息的回显
      */
     @RequestMapping("/info/{id}")
     //@RequiresPermissions("product:attr:info")
     public R info(@PathVariable("id") Long id){
-		AttrEntity attr = attrService.getById(id);
+		AttrRespVo attrRespVo = attrService.getAttrInfo(id);
 
-        return R.ok().put("attr", attr);
+        return R.ok().put("attr", attrRespVo);
     }
 
     /**
