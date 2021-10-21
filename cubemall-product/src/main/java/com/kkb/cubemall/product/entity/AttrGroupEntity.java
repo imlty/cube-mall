@@ -9,7 +9,7 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * 属性分组表
+ * 属性分组表  注意： 属性表 和 属性分组表 为 一对多关系
  * 
  * @author peige
  * @email peige@gmail.com

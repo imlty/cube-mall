@@ -1,6 +1,7 @@
 package com.kkb.cubemall.product.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kkb.cubemall.common.utils.PageUtils;
@@ -167,6 +168,38 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         attrRespVo.setCategoryPath(categoryPath);
 
         return attrRespVo;
+    }
+
+    /**
+     * 规格参数的属性修改
+     * 【修改包括：attr表 、attrAttrGroupRelation表 、attrAttrGroup表 、 category表】
+     * @param attrVo
+     */
+    @Override
+    public void updateAttr(AttrVo attrVo) {
+        // 基本属性
+        AttrEntity attrEntity = new AttrEntity();
+        BeanUtils.copyProperties(attrVo,attrEntity);
+        this.updateById(attrEntity);
+        // 修改其他表
+        AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = new AttrAttrgroupRelationEntity();
+        attrAttrgroupRelationEntity.setAttrId(attrVo.getId());
+        attrAttrgroupRelationEntity.setAttrGroupId(attrVo.getAttrGroupId());
+
+        Integer count = attrAttrgroupRelationService.getBaseMapper()
+                .selectCount(
+                        new QueryWrapper<AttrAttrgroupRelationEntity>()
+                                .eq("attr_id", attrVo.getId())
+                );
+        if (count > 0){
+            attrAttrgroupRelationService.update(
+                    attrAttrgroupRelationEntity,
+                    new UpdateWrapper<AttrAttrgroupRelationEntity>()
+                            .eq("attr_id", attrVo.getId())
+            );
+        }else {
+            attrAttrgroupRelationService.save(attrAttrgroupRelationEntity);
+        }
     }
 
 }
