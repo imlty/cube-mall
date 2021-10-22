@@ -16,6 +16,7 @@ import com.kkb.cubemall.product.entity.CategoryEntity;
 import com.kkb.cubemall.product.service.AttrAttrgroupRelationService;
 import com.kkb.cubemall.product.service.AttrService;
 import com.kkb.cubemall.product.service.CategoryService;
+import com.kkb.cubemall.product.vo.AttrGroupRelationVo;
 import com.kkb.cubemall.product.vo.AttrRespVo;
 import com.kkb.cubemall.product.vo.AttrVo;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -234,6 +236,23 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
                     .collect(Collectors.toList());
         }
         return this.listByIds(attrIds);
+    }
+
+    /**
+     * 删除 attrAttrGrouprelation 中间表
+     * @param vos
+     */
+    @Override
+    public void deleteRelation(AttrGroupRelationVo[] vos) {
+        List<AttrAttrgroupRelationEntity> relationEntities = Arrays.stream(vos)
+                .map(vo -> {
+                    AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = new AttrAttrgroupRelationEntity();
+                    BeanUtils.copyProperties(vo, attrAttrgroupRelationEntity);
+                    return attrAttrgroupRelationEntity;
+                }).collect(Collectors.toList());
+        // 批量删除
+        attrAttrgroupRelationService
+                .deleteBatch(relationEntities);
     }
 
 

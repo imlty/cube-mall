@@ -7,6 +7,7 @@ import com.kkb.cubemall.product.entity.AttrGroupEntity;
 import com.kkb.cubemall.product.service.AttrGroupService;
 import com.kkb.cubemall.product.service.AttrService;
 import com.kkb.cubemall.product.service.CategoryService;
+import com.kkb.cubemall.product.vo.AttrGroupRelationVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +34,12 @@ public class AttrGroupController {
 
     @Autowired
     private AttrService attrService;
+
+    @RequestMapping("/attr/relation/delete")// {attrId: 19, attrGroupId: 8}
+    public R deleteAttrGroupAttrRelation(@RequestBody AttrGroupRelationVo[] vos){
+        attrService.deleteRelation(vos);
+        return R.ok();
+    }
 
     @RequestMapping("{attrgroupId}/attr/relation")
     public R getAttrRelationGroup(@PathVariable("attrgroupId") Long attrgroupId) {

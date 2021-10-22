@@ -2,7 +2,10 @@ package com.kkb.cubemall.product.service.impl;
 
 import com.kkb.cubemall.common.utils.PageUtils;
 import com.kkb.cubemall.common.utils.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -16,6 +19,9 @@ import com.kkb.cubemall.product.service.AttrAttrgroupRelationService;
 @Service("attrAttrgroupRelationService")
 public class AttrAttrgroupRelationServiceImpl extends ServiceImpl<AttrAttrgroupRelationDao, AttrAttrgroupRelationEntity> implements AttrAttrgroupRelationService {
 
+    @Autowired
+    private AttrAttrgroupRelationDao attrAttrgroupRelationDao;
+
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<AttrAttrgroupRelationEntity> page = this.page(
@@ -24,6 +30,11 @@ public class AttrAttrgroupRelationServiceImpl extends ServiceImpl<AttrAttrgroupR
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public void deleteBatch(List<AttrAttrgroupRelationEntity> relationEntities) {
+        attrAttrgroupRelationDao.deleteBatch(relationEntities);
     }
 
 }
