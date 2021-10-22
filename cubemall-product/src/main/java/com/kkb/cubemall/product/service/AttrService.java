@@ -6,6 +6,7 @@ import com.kkb.cubemall.product.entity.AttrEntity;
 import com.kkb.cubemall.product.vo.AttrRespVo;
 import com.kkb.cubemall.product.vo.AttrVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,5 +27,7 @@ public interface AttrService extends IService<AttrEntity> {
     AttrRespVo getAttrInfo(Long id);
 
     void updateAttr(AttrVo attrVo);
+
+    List<AttrEntity> getRelationAttrs(Long attrgroupId);
 }
 

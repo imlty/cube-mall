@@ -23,6 +23,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -208,5 +209,32 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
             attrAttrgroupRelationService.save(attrAttrgroupRelationEntity);
         }
     }
+
+    /**
+     * 获取属性分组中所有属性
+     *
+     * @param attrgroupId
+     * @return
+     */
+    @Override
+    public List<AttrEntity> getRelationAttrs(Long attrgroupId) {
+        List<AttrAttrgroupRelationEntity> attrAttrgroupRelationEntities = attrAttrgroupRelationService.getBaseMapper()
+                .selectList(
+                        new QueryWrapper<AttrAttrgroupRelationEntity>()
+                                .eq("attr_group_id", attrgroupId)
+                );
+        List<Long> attrIds = new ArrayList<>();
+        if (attrAttrgroupRelationEntities.isEmpty()) {
+            return List.of();
+        } else {
+            attrIds = attrAttrgroupRelationEntities
+                    .stream()
+                    .map(AttrAttrgroupRelationEntity::getAttrId)
+                    .distinct()
+                    .collect(Collectors.toList());
+        }
+        return this.listByIds(attrIds);
+    }
+
 
 }
