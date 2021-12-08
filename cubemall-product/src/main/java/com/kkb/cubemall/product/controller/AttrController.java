@@ -2,6 +2,7 @@ package com.kkb.cubemall.product.controller;
 
 import com.kkb.cubemall.common.utils.PageUtils;
 import com.kkb.cubemall.common.utils.R;
+import com.kkb.cubemall.product.service.AttrAttrgroupRelationService;
 import com.kkb.cubemall.product.service.AttrService;
 import com.kkb.cubemall.product.vo.AttrRespVo;
 import com.kkb.cubemall.product.vo.AttrVo;
@@ -84,6 +85,9 @@ public class AttrController {
     //@RequiresPermissions("product:attr:delete")
     public R delete(@RequestBody Long[] ids) {
         attrService.removeByIds(Arrays.asList(ids));
+
+        // 删除关联表信息
+        attrService.removeAttrAttrgroupRelationByIds(ids);
 
         return R.ok();
     }

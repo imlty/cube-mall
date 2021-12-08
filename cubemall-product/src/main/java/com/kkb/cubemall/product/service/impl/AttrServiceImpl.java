@@ -69,11 +69,14 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         // 保存基本数据
         this.save(attrEntity);
 
-        // 保存关联数据
-        AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = new AttrAttrgroupRelationEntity();
-        attrAttrgroupRelationEntity.setAttrId(attrEntity.getId());
-        attrAttrgroupRelationEntity.setAttrGroupId(attrVo.getAttrGroupId());
-        attrAttrgroupRelationService.save(attrAttrgroupRelationEntity);
+        if (attrVo.getAttrGroupId() != null) {
+            // 保存关联数据
+            AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = new AttrAttrgroupRelationEntity();
+            attrAttrgroupRelationEntity.setAttrId(attrEntity.getId());
+            attrAttrgroupRelationEntity.setAttrGroupId(attrVo.getAttrGroupId());
+            attrAttrgroupRelationService.save(attrAttrgroupRelationEntity);
+        }
+
     }
 
     /**
@@ -131,13 +134,14 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
                             attrRespVo.setGroupName(attrGroupEntity.getName());
                         }
                     }
+                    // fix: 分类信息，直接从 attr 获取；避免销售属性获取不到分类问题
                     // 3. 查询分类
-                    if (attrGroupEntity != null) {
-                        CategoryEntity categoryEntity = categoryDao.selectById(attrGroupEntity.getCategoryId());
-                        if (categoryEntity != null) {
-                            attrRespVo.setCategoryName(categoryEntity.getName());
-                        }
+
+                    CategoryEntity categoryEntity = categoryDao.selectById(attrEntity.getCategoryId());
+                    if (categoryEntity != null) {
+                        attrRespVo.setCategoryName(categoryEntity.getName());
                     }
+
                     // 封装分组名称
                     return attrRespVo;
                 }).collect(Collectors.toList());
@@ -296,8 +300,8 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
             wrapper.notIn("id", attrIds);
         }
         String key = (String) params.get("key");
-        if (StringUtils.isNotEmpty(key)){
-            wrapper.eq("id",key).or().like("name",key);
+        if (StringUtils.isNotEmpty(key)) {
+            wrapper.eq("id", key).or().like("name", key);
         }
         List<AttrEntity> attrEntities = this.getBaseMapper()
                 .selectList(wrapper);
@@ -308,6 +312,14 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public void removeAttrAttrgroupRelationByIds(Long[] attrIds) {
+        Arrays.stream(attrIds)
+                .forEach(attrId -> attrAttrgroupRelationService.remove(
+                        new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attrId)
+                ));
     }
 
 
