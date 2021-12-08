@@ -240,6 +240,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
     /**
      * 删除 attrAttrGrouprelation 中间表
+     *
      * @param vos
      */
     @Override
@@ -253,6 +254,60 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         // 批量删除
         attrAttrgroupRelationService
                 .deleteBatch(relationEntities);
+    }
+
+    /**
+     * 获取属性分组没有关联的属性
+     *
+     * @param params
+     * @param attrgroupId
+     * @return
+     */
+    @Override
+    public PageUtils getNoRelationAttrs(Map<String, Object> params, Long attrgroupId) {
+        // 1. 获取当前分组已关联的属性
+        AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(attrgroupId);
+
+        Integer categoryId = attrGroupEntity.getCategoryId();
+        List<Long> attrgroupIds = attrGroupDao
+                .selectList(
+                        new QueryWrapper<AttrGroupEntity>()
+                                .eq("category_id", categoryId)
+                )
+                .stream()
+                .map(AttrGroupEntity::getId)
+                .collect(Collectors.toList());
+        List<Long> attrIds = attrAttrgroupRelationService.getBaseMapper()
+                .selectList(
+                        new QueryWrapper<AttrAttrgroupRelationEntity>()
+                                .in("attr_group_id", attrgroupIds)
+                )
+                .stream()
+                .map(AttrAttrgroupRelationEntity::getAttrId)
+                .collect(Collectors.toList());
+
+        // 2. 获取当前分组下所有关联的属性
+        QueryWrapper<AttrEntity> wrapper = new QueryWrapper<AttrEntity>()
+                .eq("category_id", categoryId)
+                .eq("attr_type", 1);
+
+        // 3. 获取未关联属性 [移除已关联]
+        if (attrIds.size() > 0) {
+            wrapper.notIn("id", attrIds);
+        }
+        String key = (String) params.get("key");
+        if (StringUtils.isNotEmpty(key)){
+            wrapper.eq("id",key).or().like("name",key);
+        }
+        List<AttrEntity> attrEntities = this.getBaseMapper()
+                .selectList(wrapper);
+
+        IPage<AttrEntity> page = this.page(
+                new Query<AttrEntity>().getPage(params),
+                wrapper
+        );
+
+        return new PageUtils(page);
     }
 
 

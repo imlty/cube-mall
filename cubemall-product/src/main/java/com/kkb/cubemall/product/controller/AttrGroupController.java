@@ -4,6 +4,7 @@ import com.kkb.cubemall.common.utils.PageUtils;
 import com.kkb.cubemall.common.utils.R;
 import com.kkb.cubemall.product.entity.AttrEntity;
 import com.kkb.cubemall.product.entity.AttrGroupEntity;
+import com.kkb.cubemall.product.service.AttrAttrgroupRelationService;
 import com.kkb.cubemall.product.service.AttrGroupService;
 import com.kkb.cubemall.product.service.AttrService;
 import com.kkb.cubemall.product.service.CategoryService;
@@ -35,15 +36,42 @@ public class AttrGroupController {
     @Autowired
     private AttrService attrService;
 
+    @Autowired
+    private AttrAttrgroupRelationService attrAttrgroupRelationService;
+
     @RequestMapping("/attr/relation/delete")// {attrId: 19, attrGroupId: 8}
-    public R deleteAttrGroupAttrRelation(@RequestBody AttrGroupRelationVo[] vos){
+    public R deleteAttrGroupAttrRelation(@RequestBody AttrGroupRelationVo[] vos) {
         attrService.deleteRelation(vos);
         return R.ok();
     }
 
+    @PostMapping("/attr/relation")
+    public R addRelation(@RequestBody List<AttrGroupRelationVo> vos) {
+        attrAttrgroupRelationService.saveBatch(vos);
+        return R.ok();
+    }
+
+    /**
+     * 获取属性关联组没有关联的所有属性
+     *
+     * @param attrgroupId
+     * @return
+     */
+    @RequestMapping("{attrgroupId}/noattr/relation")
+    public R getNoAttrRelationGroup(@RequestParam Map<String, Object> params, @PathVariable("attrgroupId") Long attrgroupId) {
+        PageUtils entityList = attrService.getNoRelationAttrs(params, attrgroupId);
+        return R.ok().put("page", entityList);
+    }
+
+    /**
+     * 获取属性分组所关联的所有属性
+     *
+     * @param attrgroupId
+     * @return
+     */
     @RequestMapping("{attrgroupId}/attr/relation")
     public R getAttrRelationGroup(@PathVariable("attrgroupId") Long attrgroupId) {
-        List<AttrEntity> entityList= attrService.getRelationAttrs(attrgroupId);
+        List<AttrEntity> entityList = attrService.getRelationAttrs(attrgroupId);
         return R.ok().put("data", entityList);
     }
 
