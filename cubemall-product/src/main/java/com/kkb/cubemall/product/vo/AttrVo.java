@@ -5,11 +5,9 @@ import lombok.Data;
 
 @Data
 public class AttrVo {
-
     /**
      * 自增ID
      */
-    @TableId
     private Long id;
     /**
      * 名称
@@ -20,7 +18,7 @@ public class AttrVo {
      */
     private Integer searchType;
     /**
-     * 图表
+     * 图标
      */
     private String icon;
     /**
@@ -44,7 +42,7 @@ public class AttrVo {
      */
     private Integer showDesc;
     /**
-     * 分组id
+     * 分组ID
      */
     private Long attrGroupId;
 }

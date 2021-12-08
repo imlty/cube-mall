@@ -10,7 +10,7 @@ import lombok.Data;
 /**
  * 属性表
  * 
- * @author peige 注意： 属性表 和 属性分组表 为 一对多关系
+ * @author peige
  * @email peige@gmail.com
  * @date 2021-04-19 18:24:09
  */

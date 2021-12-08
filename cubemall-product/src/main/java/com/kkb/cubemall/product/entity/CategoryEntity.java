@@ -25,6 +25,13 @@ public class CategoryEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * 子分类
+	 */
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@TableField(exist=false)
+	private List<CategoryEntity> childrens;
+
+	/**
 	 * 分类ID
 	 */
 	@TableId
@@ -40,7 +47,7 @@ public class CategoryEntity implements Serializable {
 	/**
 	 * 是否显示
 	 */
-	@TableLogic(delval = "0",value = "1")
+	@TableLogic(value="1", delval = "0")
 	private String isShow;
 	/**
 	 * 是否导航
@@ -58,12 +65,5 @@ public class CategoryEntity implements Serializable {
 	 * 模板ID
 	 */
 	private Integer templateId;
-
-	/**
-	 * 子分类
-	 */
-	@JsonInclude(JsonInclude.Include.NON_EMPTY) // 不为空才转换为 json
-	@TableField(exist = false)
-	private List<CategoryEntity> children;
 
 }

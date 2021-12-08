@@ -5,12 +5,11 @@ import lombok.Data;
 @Data
 public class AttrGroupRelationVo {
     /**
-     * 属性 id
+     * 属性id
      */
     private Long attrId;
-
     /**
-     * 属性分组 id
+     * 属性分组id
      */
     private Long attrGroupId;
 }

@@ -21,20 +21,18 @@ public interface AttrService extends IService<AttrEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
-    void saveAttrVo(AttrVo attrVo);
+    void saveAttr(AttrVo attrVo);
 
-    PageUtils queryBaseAttrPage(Map<String, Object> params, String attrType, Long categoryId);
+    PageUtils queryBaseAttrPage(Map<String, Object> params, Long categoryId, String attrType);
 
     AttrRespVo getAttrInfo(Long id);
 
     void updateAttr(AttrVo attrVo);
 
-    List<AttrEntity> getRelationAttrs(Long attrgroupId);
+    List<AttrEntity> getRelationAttr(Long attrGroupId);
 
     void deleteRelation(AttrGroupRelationVo[] vos);
 
-    PageUtils getNoRelationAttrs(Map<String, Object> params, Long attrgroupId);
-
-    void removeAttrAttrgroupRelationByIds(Long[] attrIds);
+    PageUtils getNoRelationAttr(Map<String, Object> params, Long attrGroupId);
 }
 

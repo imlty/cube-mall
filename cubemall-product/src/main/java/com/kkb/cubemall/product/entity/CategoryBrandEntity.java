@@ -39,4 +39,5 @@ public class CategoryBrandEntity implements Serializable {
 
 	@TableField(exist = false)
 	private String brandName;
+
 }

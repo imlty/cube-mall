@@ -9,7 +9,7 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * 属性分组表  注意： 属性表 和 属性分组表 为 一对多关系
+ * 属性分组表
  * 
  * @author peige
  * @email peige@gmail.com
@@ -45,9 +45,11 @@ public class AttrGroupEntity implements Serializable {
 	 * 分类ID
 	 */
 	private Integer categoryId;
+
 	/**
-	 * 完整的 categoryId 的路径
+	 * 完整的categoryID的路径
 	 */
-	@TableField(exist = false )
+	@TableField(exist = false)
 	private Long[] categoryPath;
+
 }
