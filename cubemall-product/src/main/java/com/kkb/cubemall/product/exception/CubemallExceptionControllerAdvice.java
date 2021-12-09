@@ -35,12 +35,12 @@ public class CubemallExceptionControllerAdvice {
 
             map.put(field, message);
         });
-        return R.error(CubemallEnum.VAILD_EXCEPTION.getCode(), CubemallEnum.VAILD_EXCEPTION.getMessage()).put("data", map);
+        return R.error(CubemallEnum.VAILD_EXCEPTION.getCode(), CubemallEnum.VAILD_EXCEPTION.getMsg()).put("data", map);
     }
 
     @ExceptionHandler(value = Throwable.class)
     public R handleVaildException(Throwable throwable){
         log.error("错误", throwable);
-        return R.error(CubemallEnum.UNKNOW_EXCEPTION.getCode(), CubemallEnum.UNKNOW_EXCEPTION.getMessage()).put("data", "未知异常");
+        return R.error(CubemallEnum.UNKNOW_EXCEPTION.getCode(), CubemallEnum.UNKNOW_EXCEPTION.getMsg()).put("data", "未知异常");
     }
 }

@@ -1,14 +1,8 @@
 package com.kkb.cubemall.product.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kkb.cubemall.common.utils.PageUtils;
 import com.kkb.cubemall.common.utils.Query;
-import com.kkb.cubemall.product.dao.AttrGroupDao;
 import com.kkb.cubemall.product.entity.AttrEntity;
-import com.kkb.cubemall.product.entity.AttrGroupEntity;
-import com.kkb.cubemall.product.service.AttrGroupService;
 import com.kkb.cubemall.product.service.AttrService;
 import com.kkb.cubemall.product.vo.AttrGroupWithAttrsVo;
 import org.apache.commons.lang3.StringUtils;
@@ -18,8 +12,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
+import com.kkb.cubemall.product.dao.AttrGroupDao;
+import com.kkb.cubemall.product.entity.AttrGroupEntity;
+import com.kkb.cubemall.product.service.AttrGroupService;
 
 
 @Service("attrGroupService")
@@ -40,7 +41,6 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
 
     /**
      * 获取指定分类下的所有属性分组列表
-     *
      * @param params
      * @param categoryId
      * @return
@@ -48,7 +48,7 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
     @Override
     public PageUtils queryPage(Map<String, Object> params, Long categoryId) {
 
-        if (categoryId == 0) {
+        if(categoryId == 0){
             //没有点击任何的分类, 查询所有属性分组信息
             IPage<AttrGroupEntity> page = this.page(
                     //分页条件
@@ -63,13 +63,13 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
             //SELECT * FROM tb_attr_group WHERE category_id=? AND (id=key or name like %key%)\]
             QueryWrapper<AttrGroupEntity> queryWrapper = new QueryWrapper<>();
             //查询条件1:  category_id=?
-            if (categoryId != 0) {
+            if (categoryId != 0){
                 queryWrapper.eq("category_id", categoryId);
             }
             //查询条件2:  AND (id=key or name like %key%)
             String key = (String) params.get("key");
-            if (!StringUtils.isEmpty(key)) {
-                queryWrapper.and(qw -> {
+            if (!StringUtils.isEmpty(key)){
+                queryWrapper.and(qw->{
                     qw.eq("id", key).or().like("name", key);
                 });
             }
@@ -86,7 +86,6 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
 
     /**
      * 获取分类下的所有分组&关联属性
-     *
      * @param categoryId
      * @return
      */
@@ -95,25 +94,16 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
         //1.查询该分类下所有的分组信息
         List<AttrGroupEntity> attrGroupEntities = this.list(new QueryWrapper<AttrGroupEntity>().eq("category_id", categoryId));
         //2.查询出所有属性
-        List<AttrGroupWithAttrsVo> collect = attrGroupEntities.stream()
-                .map(attrGroupEntity -> {
-                    AttrGroupWithAttrsVo attrsVo = new AttrGroupWithAttrsVo();
-                    //属性对拷
-                    BeanUtils.copyProperties(attrGroupEntity, attrsVo);
-                    //设置关联的属性
-                    List<AttrEntity> relationAttr = attrService.getRelationAttr(attrsVo.getId());
+        List<AttrGroupWithAttrsVo> collect = attrGroupEntities.stream().map(attrGroupEntity -> {
+            AttrGroupWithAttrsVo attrsVo = new AttrGroupWithAttrsVo();
+            //属性对拷
+            BeanUtils.copyProperties(attrGroupEntity, attrsVo);
+            //设置关联的属性
+            List<AttrEntity> relationAttr = attrService.getRelationAttr(attrsVo.getId());
+            attrsVo.setAttrs(relationAttr);
 
-                    // 错误数据处理 当 relationAttr 为 null
-                    if (relationAttr == null) {
-                        return null;
-                    }
-
-                    attrsVo.setAttrs(relationAttr);
-
-                    return attrsVo;
-                })
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+            return attrsVo;
+        }).collect(Collectors.toList());
 
         return collect;
     }

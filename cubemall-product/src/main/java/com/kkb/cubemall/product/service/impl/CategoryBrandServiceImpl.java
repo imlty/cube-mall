@@ -51,7 +51,8 @@ public class CategoryBrandServiceImpl extends ServiceImpl<CategoryBrandDao, Cate
         );
         List<BrandEntity> collect = categoryBrandEntities.stream().map(item -> {
             Integer brandId = item.getBrandId();
-            return brandService.getById(brandId);
+            BrandEntity brandEntity = brandService.getById(brandId);
+            return brandEntity;
         }).collect(Collectors.toList());
 
         return collect;
