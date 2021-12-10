@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 
@@ -109,7 +110,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                 // 缓存进 redis
                 String treeJSON = JSON.toJSONString(tree);
                 System.out.println("已从数据库中读取...");
-                redisTemplate.opsForValue().set("categoryJSON", treeJSON);
+                redisTemplate.opsForValue().set("categoryJSON", treeJSON, 1 , TimeUnit.DAYS);
                 System.out.println("已缓存热点数据...");
                 return tree;
             } else {
