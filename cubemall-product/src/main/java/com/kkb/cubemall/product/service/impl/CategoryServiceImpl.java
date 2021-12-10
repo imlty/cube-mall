@@ -14,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -100,15 +97,20 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
         // 使用分布式锁，redis
 
+        // 标识分布式锁
+        String lock = UUID.randomUUID().toString();
+
         // 1. 占据锁 [设置过期时间，防止未删除锁而赵成的 BUG ]
-        Boolean isLock = redisTemplate.opsForValue().setIfAbsent("lock", "lock", 30, TimeUnit.SECONDS);
+        Boolean isLock = redisTemplate.opsForValue().setIfAbsent("lock", lock, 30, TimeUnit.SECONDS);
         if (isLock) {
             List<CategoryEntity> dataFromDb;
             try {
                 dataFromDb = getDataFromDb();
             } finally {
-                // 2. 删除锁
-                redisTemplate.delete("lock");
+                // 2. 删除属于自己的锁；防止误删除其他锁
+                if (lock.equals(redisTemplate.opsForValue().get("lock"))) {
+                    redisTemplate.delete("lock");
+                }
             }
             return dataFromDb;
         } else {
