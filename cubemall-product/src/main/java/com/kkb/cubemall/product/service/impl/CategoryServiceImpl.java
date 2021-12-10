@@ -1,5 +1,6 @@
 package com.kkb.cubemall.product.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -8,6 +9,9 @@ import com.kkb.cubemall.common.utils.Query;
 import com.kkb.cubemall.product.dao.CategoryDao;
 import com.kkb.cubemall.product.entity.CategoryEntity;
 import com.kkb.cubemall.product.service.CategoryService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,6 +23,9 @@ import java.util.stream.Collectors;
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
+
+    @Autowired
+    protected RedisTemplate redisTemplate;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -42,11 +49,11 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         //2.组装成父子的树形结构
         //2.1 找到所有的一级分类
         List<CategoryEntity> levelOneMenus = entities.stream().filter(
-            //过滤过一级分类 parentId==0, 根据这个条件构建出所有一级分类的数据
-            categoryEntity -> categoryEntity.getParentId() == 0
-        ).map((menu)->{
+                //过滤过一级分类 parentId==0, 根据这个条件构建出所有一级分类的数据
+                categoryEntity -> categoryEntity.getParentId() == 0
+        ).map((menu) -> {
             //出现递归操作,关联出子分类(2,3级分类)
-            menu.setChildrens( getChildrens(menu, entities) );
+            menu.setChildrens(getChildrens(menu, entities));
             return menu;
         }).collect(Collectors.toList());
 
@@ -82,9 +89,25 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         return parentPath.toArray(new Long[parentPath.size()]);
     }
 
+    /**
+     * 改造：用 redis 缓存热点数据
+     *
+     * @return
+     */
     @Override
     public List<CategoryEntity> getLevel1Categories() {
-        return listWithTree();
+        String categoryJSON = (String) redisTemplate.opsForValue().get("categoryJSON");
+        if (StringUtils.isEmpty(categoryJSON)) {
+            // 从数据库查询
+            List<CategoryEntity> tree = listWithTree();
+
+            // 缓存进 redis
+            String treeJSON = JSON.toJSONString(tree);
+            redisTemplate.opsForValue().set("categoryJSON", treeJSON);
+            return tree;
+        }
+        return JSON.parseArray(categoryJSON,CategoryEntity.class);
+
     }
 
     /**

@@ -1,7 +1,4 @@
 spring:
-  # 开发阶段为测试方便关闭；生产阶段可打开缓存
-  thymeleaf:
-    cache: true
   application:
     name: cubemall-product
   cloud:
@@ -13,6 +10,12 @@ spring:
     url: jdbc:mysql://112.124.39.204:3306/cube_goods?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: root
     password: 123456
+  # 开发阶段为测试方便关闭；生产阶段可打开缓存
+  thymeleaf:
+    cache: true
+  redis:
+    host: localhost
+    port: 6379
 server:
   port: 8081
 mybatis-plus:
