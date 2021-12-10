@@ -8,12 +8,12 @@ public enum CubemallEnum {
     VAILD_EXCEPTION(10001,"参数校验异常");
 
     private int code;
-    private String message;
+    private String msg;
 
 
     CubemallEnum(int code, String message) {
         this.code = code;
-        this.message = message;
+        this.msg = message;
     }
 
 }
