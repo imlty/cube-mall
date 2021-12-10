@@ -96,28 +96,23 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      * @return
      */
     @Override
-    public List<CategoryEntity> getLevel1Categories() {
+    private List<CategoryEntity> getDataFromDb() {
+        String categoryJSON = redisTemplate.opsForValue().get("categoryJSON"); // 从缓存中读
 
-        synchronized (this) {
+        if (StringUtils.isEmpty(categoryJSON)) {
+            System.out.println("缓存未命中，准备查询数据库...");
+            // 从数据库查询
+            List<CategoryEntity> tree = listWithTree();
 
-            String categoryJSON = redisTemplate.opsForValue().get("categoryJSON"); // 从缓存中读
-
-            if (StringUtils.isEmpty(categoryJSON)) {
-                System.out.println("缓存未命中...");
-                // 从数据库查询
-                List<CategoryEntity> tree = listWithTree();
-
-                // 缓存进 redis
-                String treeJSON = JSON.toJSONString(tree);
-                System.out.println("已从数据库中读取...");
-                redisTemplate.opsForValue().set("categoryJSON", treeJSON, 1 , TimeUnit.DAYS);
-                System.out.println("已缓存热点数据...");
-                return tree;
-            } else {
-                System.out.println("缓存命中...");
-                return JSON.parseArray(categoryJSON, CategoryEntity.class);
-
-            }
+            // 缓存进 redis
+            String treeJSON = JSON.toJSONString(tree);
+            System.out.println("已从数据库中读取...");
+            redisTemplate.opsForValue().set("categoryJSON", treeJSON, 1, TimeUnit.DAYS);
+            System.out.println("已缓存热点数据...");
+            return tree;
+        } else {
+            System.out.println("缓存命中...");
+            return JSON.parseArray(categoryJSON, CategoryEntity.class);
         }
     }
 
