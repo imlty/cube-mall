@@ -96,6 +96,27 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      * @return
      */
     @Override
+    public List<CategoryEntity> getLevel1Categories() {
+
+        // 使用分布式锁，redis
+
+        // 1. 占据锁 [设置过期时间，防止未删除锁而赵成的 BUG ]
+        Boolean isLock = redisTemplate.opsForValue().setIfAbsent("lock", "lock", 30, TimeUnit.SECONDS);
+        if (isLock) {
+            List<CategoryEntity> dataFromDb;
+            try {
+                dataFromDb = getDataFromDb();
+            } finally {
+                // 2. 删除锁
+                redisTemplate.delete("lock");
+            }
+            return dataFromDb;
+        } else {
+            // 加锁失败  自旋
+            return getLevel1Categories();
+        }
+    }
+
     private List<CategoryEntity> getDataFromDb() {
         String categoryJSON = redisTemplate.opsForValue().get("categoryJSON"); // 从缓存中读
 
