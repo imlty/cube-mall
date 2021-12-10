@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
 
     @Autowired
-    protected RedisTemplate redisTemplate;
+    protected RedisTemplate<String, String> redisTemplate;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -96,18 +96,28 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      */
     @Override
     public List<CategoryEntity> getLevel1Categories() {
-        String categoryJSON = (String) redisTemplate.opsForValue().get("categoryJSON");
-        if (StringUtils.isEmpty(categoryJSON)) {
-            // 从数据库查询
-            List<CategoryEntity> tree = listWithTree();
 
-            // 缓存进 redis
-            String treeJSON = JSON.toJSONString(tree);
-            redisTemplate.opsForValue().set("categoryJSON", treeJSON);
-            return tree;
+        synchronized (this) {
+
+            String categoryJSON = redisTemplate.opsForValue().get("categoryJSON"); // 从缓存中读
+
+            if (StringUtils.isEmpty(categoryJSON)) {
+                System.out.println("缓存未命中...");
+                // 从数据库查询
+                List<CategoryEntity> tree = listWithTree();
+
+                // 缓存进 redis
+                String treeJSON = JSON.toJSONString(tree);
+                System.out.println("已从数据库中读取...");
+                redisTemplate.opsForValue().set("categoryJSON", treeJSON);
+                System.out.println("已缓存热点数据...");
+                return tree;
+            } else {
+                System.out.println("缓存命中...");
+                return JSON.parseArray(categoryJSON, CategoryEntity.class);
+
+            }
         }
-        return JSON.parseArray(categoryJSON,CategoryEntity.class);
-
     }
 
     /**
