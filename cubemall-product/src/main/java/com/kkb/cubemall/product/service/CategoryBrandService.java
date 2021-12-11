@@ -2,8 +2,10 @@ package com.kkb.cubemall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kkb.cubemall.common.utils.PageUtils;
+import com.kkb.cubemall.product.entity.BrandEntity;
 import com.kkb.cubemall.product.entity.CategoryBrandEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +18,7 @@ import java.util.Map;
 public interface CategoryBrandService extends IService<CategoryBrandEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    List<BrandEntity> getBrandByCategoryId(Integer categoryId);
 }
 

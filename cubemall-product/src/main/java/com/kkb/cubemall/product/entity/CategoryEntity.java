@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 /**
@@ -22,6 +23,13 @@ import lombok.Data;
 @TableName("tb_category")
 public class CategoryEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 子分类
+	 */
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@TableField(exist=false)
+	private List<CategoryEntity> childrens;
 
 	/**
 	 * 分类ID
@@ -39,7 +47,7 @@ public class CategoryEntity implements Serializable {
 	/**
 	 * 是否显示
 	 */
-	@TableLogic(delval = "0",value = "1")
+	@TableLogic(value="1", delval = "0")
 	private String isShow;
 	/**
 	 * 是否导航
@@ -57,11 +65,5 @@ public class CategoryEntity implements Serializable {
 	 * 模板ID
 	 */
 	private Integer templateId;
-
-	/**
-	 * 子分类
-	 */
-	@TableField(exist = false)
-	private List<CategoryEntity> children;
 
 }

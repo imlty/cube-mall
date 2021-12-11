@@ -20,13 +20,14 @@ spring:
           filters:
             - RewritePath=/api/thirdparty/(?<segment>/?.*),/$\{segment}
 
-        # product 微服务 /api/product/** -> /**
+        # product 微服务 /api/product/** -> /product/**
         - id: product_route
           uri: lb://cubemall-product
           predicates:
             - Path=/api/product/**
           filters:
             - RewritePath=/api/(?<segment>/?.*),/$\{segment}
+
 
         # renren-fast 微服务 /api/** -> /renren-fast/**
         - id: admin_route
@@ -35,3 +36,9 @@ spring:
           - Path=/api/**
           filters:
           - RewritePath=/api/(?<segment>/?.*),/renren-fast/$\{segment}
+
+        # product 微服务 中的首页
+        - id: cubemall_host_route
+          uri: lb://cubemall-product
+          predicates:
+            - Host=**.cube.com

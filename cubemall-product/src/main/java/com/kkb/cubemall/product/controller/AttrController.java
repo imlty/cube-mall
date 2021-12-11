@@ -5,6 +5,8 @@ import java.util.Map;
 
 import com.kkb.cubemall.common.utils.PageUtils;
 import com.kkb.cubemall.common.utils.R;
+import com.kkb.cubemall.product.vo.AttrRespVo;
+import com.kkb.cubemall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,25 +34,28 @@ public class AttrController {
 
     /**
      * 列表
+     * 请求路径 /product/attr/base/list/{categoryId}, 分页查询,模糊查询, 基本属性
+     * 请求路径 /product/attr/sale/list/{categoryId}, 分页查询,模糊查询, 销售属性
      */
-    @RequestMapping("/list")
+    @RequestMapping("/{attrType}/list/{categoryId}")
     //@RequiresPermissions("product:attr:list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = attrService.queryPage(params);
+    public R list(@RequestParam Map<String, Object> params,@PathVariable("categoryId") Long categoryId, @PathVariable("attrType") String attrType){
+        PageUtils page = attrService.queryBaseAttrPage(params, categoryId, attrType);
 
         return R.ok().put("page", page);
     }
 
 
     /**
-     * 信息
+     * 指定属性信息的回显
      */
     @RequestMapping("/info/{id}")
     //@RequiresPermissions("product:attr:info")
     public R info(@PathVariable("id") Long id){
-		AttrEntity attr = attrService.getById(id);
+		// AttrEntity attr = attrService.getById(id);
+        AttrRespVo attrRespVo =  attrService.getAttrInfo(id);
 
-        return R.ok().put("attr", attr);
+        return R.ok().put("attr", attrRespVo);
     }
 
     /**
@@ -58,19 +63,19 @@ public class AttrController {
      */
     @RequestMapping("/save")
     //@RequiresPermissions("product:attr:save")
-    public R save(@RequestBody AttrEntity attr){
-		attrService.save(attr);
+    public R save(@RequestBody AttrVo attrVo){
+		attrService.saveAttr(attrVo);
 
         return R.ok();
     }
 
     /**
-     * 修改
+     * 修改提交操作
      */
     @RequestMapping("/update")
     //@RequiresPermissions("product:attr:update")
-    public R update(@RequestBody AttrEntity attr){
-		attrService.updateById(attr);
+    public R update(@RequestBody AttrVo attrVo){
+		attrService.updateAttr(attrVo);
 
         return R.ok();
     }

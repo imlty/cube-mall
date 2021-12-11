@@ -3,6 +3,9 @@ package com.kkb.cubemall.product.dao;
 import com.kkb.cubemall.product.entity.AttrAttrgroupRelationEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 属性分组关联表
@@ -13,5 +16,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface AttrAttrgroupRelationDao extends BaseMapper<AttrAttrgroupRelationEntity> {
-	
+
+    void deleteBatch(@Param("entities") List<AttrAttrgroupRelationEntity> relationEntities);
+
 }
