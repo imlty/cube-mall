@@ -12,6 +12,7 @@ import com.kkb.cubemall.product.service.CategoryService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -108,9 +109,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                 dataFromDb = getDataFromDb();
             } finally {
                 // 2. 删除属于自己的锁；防止误删除其他锁
-                if (lock.equals(redisTemplate.opsForValue().get("lock"))) {
-                    redisTemplate.delete("lock");
-                }
+                String script = "if redis.call('get',KEYS[1]) == ARGV[1] then return redis.call('del',KEYS[1]) else return 0 end";
+                redisTemplate.execute(new DefaultRedisScript<Integer>(script, Integer.class), Arrays.asList("lock"), lock);
             }
             return dataFromDb;
         } else {
