@@ -200,7 +200,7 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
         //改变采购单的状态
         PurchaseEntity purchaseEntity = new PurchaseEntity();
         purchaseEntity.setId(purchaseDoneVo.getId());
-        if (flag == true){
+        if (flag){
             //true: 没有出现采购失败的采购项
             purchaseEntity.setStatus(WareConstant.PurchaseStatusEnum.FINISH.getCode());
         } else {

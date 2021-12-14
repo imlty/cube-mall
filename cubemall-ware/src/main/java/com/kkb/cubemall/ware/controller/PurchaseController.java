@@ -1,6 +1,7 @@
 package com.kkb.cubemall.ware.controller;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -94,7 +95,8 @@ public class PurchaseController {
     @RequestMapping("/save")
     //@RequiresPermissions("ware:purchase:save")
     public R save(@RequestBody PurchaseEntity purchase){
-		purchaseService.save(purchase);
+		purchase.setCreateTime(new Date());
+        purchaseService.save(purchase);
 
         return R.ok();
     }
