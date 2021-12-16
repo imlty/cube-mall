@@ -6,6 +6,8 @@ import com.kkb.cubemall.search.model.SpuInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * spu信息
  * 
@@ -16,5 +18,16 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface SpuInfoDao extends BaseMapper<SpuInfoEntity> {
 
+    /**
+     *  获取 spu 信息
+     * @param spuId spuId
+     * @return SpuInfo
+     */
     SpuInfo getSpuInfoById(@Param("spuId") Long spuId);
+
+    /**
+     *  查询所有 spu 信息
+     * @return List<SpuInfo>
+     */
+    List<SpuInfo> getSpuInfos();
 }
