@@ -6,9 +6,13 @@ import com.kkb.cubemall.search.model.SpuInfo;
 import com.kkb.cubemall.search.repository.SpuInfoRepository;
 import com.kkb.cubemall.search.service.SpuInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Service("spuInfoService")
 public class SpuInfoServiceImpl implements SpuInfoService {
@@ -31,5 +35,10 @@ public class SpuInfoServiceImpl implements SpuInfoService {
         List<SpuInfo> spuInfos = spuInfoDao.getSpuInfos();
         spuInfoRepository.saveAll(spuInfos);
         return R.ok();
+    }
+
+    @Override
+    public Map<String, Object> search(Map<String, String> paramMap) {
+        return null;
     }
 }

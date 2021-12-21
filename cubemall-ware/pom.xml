@@ -20,7 +20,7 @@
     <dependencies>
         <!--引入common公共模块-->
         <dependency>
-            <groupId>com.kkb.cubemall</groupId>
+            <groupId>com.kkb.cubemall</groupId>d
             <artifactId>cubemall-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

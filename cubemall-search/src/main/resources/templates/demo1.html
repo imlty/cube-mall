@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thymeleaf的入门</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:include="footer::head"></div>
+<!--输出hello数据-->
+<p th:text="${hello}" ></p>
+
+<!--演示提交数据给服务器端controller方法-->
+<form th:action="@{/test/demo1}" >
+    <input th:type="text"  th:name="id" th:value="${id}">
+    <button>提交</button>
+</form>
+
+<!--演示遍历list集合展示数据-->
+<table>
+    <tr>
+        <td>下标</td>
+        <td>编号</td>
+        <td>姓名</td>
+        <td>住址</td>
+    </tr>
+    <tr th:each="user,userStat:${users}">
+        <td>
+            下标:<span th:text="${userStat.index}"></span>,
+        </td>
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.address}"></td>
+    </tr>
+</table>
+
+
+<!--演示页面遍历Map数据-->
+<div th:each="map,mapStat:${dataMap}">
+    <div th:text="${map}"></div>
+    key:<span th:text="${mapStat.current.key}"></span><br/>
+    value:<span th:text="${mapStat.current.value}"></span><br/>
+    ==============================================
+</div>
+
+<!--演示页面中遍历数组-->
+<div th:each="nm,nmStat:${names}">
+    <span th:text="${nmStat.count}"></span><span th:text="${nm}"></span>
+    ==============================================
+</div>
+
+<div>
+    <span th:text="${#dates.format(now,'yyyy-MM-dd hh:mm:ss')}"></span>
+</div>
+
+<div>
+    <span th:if="${(age>=18)}">终于长大了！</span>
+</div>
+
+
+
+<div th:include="footer::copy"></div>
+</body>
+</html>
