@@ -28,6 +28,15 @@ spring:
           filters:
             - RewritePath=/api/(?<segment>/?.*),/$\{segment}
 
+        # ware 微服务 /api/ware/** -> /product/**
+        - id: product_route
+          uri: lb://cubemall-ware
+          predicates:
+            - Path=/api/ware/**
+          filters:
+            - RewritePath=/api/(?<segment>/?.*),/$\{segment}
+
+
 
         # renren-fast 微服务 /api/** -> /renren-fast/**
         - id: admin_route

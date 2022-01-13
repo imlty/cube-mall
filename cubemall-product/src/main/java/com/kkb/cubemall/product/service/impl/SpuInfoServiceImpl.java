@@ -2,7 +2,9 @@ package com.kkb.cubemall.product.service.impl;
 
 import com.kkb.cubemall.common.utils.PageUtils;
 import com.kkb.cubemall.common.utils.Query;
+import com.kkb.cubemall.common.utils.R;
 import com.kkb.cubemall.product.entity.*;
+import com.kkb.cubemall.product.feign.SearchFeign;
 import com.kkb.cubemall.product.service.*;
 import com.kkb.cubemall.product.vo.*;
 import org.apache.commons.lang3.StringUtils;
@@ -181,6 +183,29 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
         IPage<SpuInfoEntity> page = this.page(new Query<SpuInfoEntity>().getPage(params), wrapper);
         return new PageUtils(page);
+    }
+    @Autowired
+    private SearchFeign searchFeign;
+
+    /**
+     * 商品上线
+     * @param spuId
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public R putOnSale(Long spuId) throws Exception {
+        SpuInfoEntity entity = new SpuInfoEntity();
+        entity.setId(spuId);
+        entity.setPublishStatus(1);
+        baseMapper.updateById(entity);
+        try {
+            searchFeign.putOnSale(spuId);
+        } catch (Exception e) {
+            throw new Exception("远程服务调用失败，商品上架失败！");
+        }
+
+        return R.ok("商品上架成功！");
     }
 
     /**

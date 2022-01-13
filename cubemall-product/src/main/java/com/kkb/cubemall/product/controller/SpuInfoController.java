@@ -7,11 +7,7 @@ import com.kkb.cubemall.common.utils.PageUtils;
 import com.kkb.cubemall.common.utils.R;
 import com.kkb.cubemall.product.vo.SpuSaveVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.kkb.cubemall.product.entity.SpuInfoEntity;
 import com.kkb.cubemall.product.service.SpuInfoService;
@@ -43,6 +39,10 @@ public class SpuInfoController {
     }
 
 
+    @PostMapping("/{spuId}/up")
+    public void putOnSale(@PathVariable Long spuId) throws Exception {
+        spuInfoService.putOnSale(spuId);
+    }
     /**
      * 信息
      */

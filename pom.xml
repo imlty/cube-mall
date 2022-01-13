@@ -12,6 +12,8 @@
 
     <modules>
         <module>cubemall-product</module>
+        <module>cubemall-ware</module>
+        <module>cubemall-search</module>
         <module>renren-fast</module>
         <module>renren-generator</module>
         <module>cubemall-common</module>
