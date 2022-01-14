@@ -1,0 +1,29 @@
+server:
+  port: 6000
+
+spring:
+  application:
+    name: cubemall-coupon
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/cube_sms?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: root
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+
+
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+
+  #\u8BBE\u7F6E\u5B9E\u4F53\u7C7B\u7684\u81EA\u589E\u4E3B\u952E
+  global-config:
+    db-config:
+      id-type: auto
+
+logging:
+  level:
+    com.kkb.cubemall: debug
