@@ -11,7 +11,7 @@ spring:
         server-addr: 8.133.162.34:8848
   redis:
     port: 6379
-    host: localhost
+    host: 8.133.188.83
     password: ithubin@163.com
   global-config:
     db-config:

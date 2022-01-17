@@ -10,6 +10,7 @@ import com.kkb.cubemall.cart.utils.Constants;
 import com.kkb.cubemall.cart.utils.CookieUtils;
 import com.kkb.cubemall.common.utils.R;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,7 +28,8 @@ import java.util.UUID;
  **/
 public class CartInterceptor implements HandlerInterceptor{
 
-
+    @Autowired
+    AuthRemoteClient remoteClient;
     // 创建一个ThreadLocal对象，用来存储用户身份信息
     // 主要用来实现数据隔离，填充的数据只属于当前线程，高并发用户情况下，每一个用户只维护自己的用户信息即可
     public static ThreadLocal<UserInfoDTO> dtoThreadLocal = new ThreadLocal<>();
@@ -44,8 +46,8 @@ public class CartInterceptor implements HandlerInterceptor{
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        // 注入远程调用rpc接口
-        AuthRemoteClient remoteClient = (AuthRemoteClient) SpringBeansUtils.getBeanClass(AuthRemoteClient.class);
+//        // 注入远程调用rpc接口
+//        AuthRemoteClient remoteClient = (AuthRemoteClient) SpringBeansUtils.getBeanClass(AuthRemoteClient.class);
 
         // 创建对象，判断用户处于状态
         UserInfoDTO userInfoDTO = new UserInfoDTO();

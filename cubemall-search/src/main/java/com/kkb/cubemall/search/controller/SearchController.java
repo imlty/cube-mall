@@ -1,6 +1,6 @@
 package com.kkb.cubemall.search.controller;
 
-import com.kkb.cubemall.common.utils.Page;
+import com.kkb.cubemall.search.model.Page;
 import com.kkb.cubemall.search.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * 搜索业务(全文检索)
  */
-@Controller
+//@Controller
 @RequestMapping("/search")
 public class SearchController {
 
@@ -28,9 +28,6 @@ public class SearchController {
      */
     @GetMapping("/list")
     public String search(@RequestParam Map<String, String> paramMap, Model model) {
-        if (!paramMap.containsKey("keywords")) {
-            paramMap.put("keywords","");
-        }
         //调用service查询返回结果
         Map<String, Object> resultMap = searchService.search(paramMap);
 

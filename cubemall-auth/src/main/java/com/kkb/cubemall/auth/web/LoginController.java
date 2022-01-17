@@ -59,14 +59,14 @@ public class LoginController {
      * @Version: 1.0
      */
     @RequestMapping("/login")
-    public String login(Use rDTO userDTO,
+    public String login(UserDTO userDTO,
                         Model model,
                         HttpServletRequest request,
                         HttpServletResponse response, HttpSession session){
         // 调用服务层登录方法
         R r = userService.login(userDTO);
         // 判断是否登录成功
-        if(r.getCode()==0){
+        if((int)r.get("Code")==0){
 
             // 获取token
             String token = (String) r.get("msg");

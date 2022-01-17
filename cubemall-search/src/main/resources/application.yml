@@ -1,27 +1,27 @@
 server:
-  port: 8083
+  port: 8082
 
 # mysql
 spring:
+  elasticsearch:
+    rest:
+      uris:
+        - 192.168.68.129:9200
+        - 192.168.68.130:9200
+        - 192.168.68.131:9200
   datasource:
     #MySQL配置
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://112.124.39.204:3306/cube_goods?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    #url: jdbc:mysql://47.113.81.149:3306/cube_goods?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://192.168.68.143:3306/cube_goods?useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: root
-    password: 123456
+    password: abc_123
   cloud:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
   application:
     name: cubemall-search
-  elasticsearch:
-    rest:
-      uris:
-        - 127.0.0.1:9200
-#       本地测试不集群
-#        - 127.0.0.1:9202
-#        - 127.0.0.1:9203
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:

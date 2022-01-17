@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * 查询参数
  *
- * @author Mark sunlightcs@gmail.com
+ * @author 
  */
 public class Query<T> {
 
@@ -40,7 +40,7 @@ public class Query<T> {
         }
 
         //分页对象
-        Page<T> page = new Page<>(curPage, limit);
+        Page<T> page = new Page<T>(curPage, limit);
 
         //分页参数
         params.put(Constant.PAGE, page);

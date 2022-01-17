@@ -8,17 +8,17 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @Author: sublun
- * @Date: 2021/4/25 18:41
+ * @Date: 2021/4/22 18:25
  */
 @Data
 @Document(indexName = "blog_1", shards = 5, replicas = 1)
 public class Blog {
     @Id
-    @Field(type = FieldType.Long, store = true)
-    private Long id;
+    @Field(type = FieldType.Long)
+    private long id;
     @Field(type = FieldType.Text, analyzer = "ik_max_word", store = true)
     private String title;
-    @Field(type = FieldType.Text, analyzer = "ik_max_word", store = true)
+    @Field(type = FieldType.Text, analyzer = "ik_max_word")
     private String content;
     @Field(type = FieldType.Text, analyzer = "ik_max_word", store = true)
     private String comment;
