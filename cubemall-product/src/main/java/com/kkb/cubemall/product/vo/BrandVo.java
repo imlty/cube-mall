@@ -4,12 +4,11 @@ import lombok.Data;
 
 @Data
 public class BrandVo {
+
     /**
-     * 品牌ID
+     * "brandId": 0,
+     * "brandName": "string",
      */
     private Integer brandId;
-    /**
-     * 品牌名称
-     */
-    private String brandName;
+    private String  brandName;
 }

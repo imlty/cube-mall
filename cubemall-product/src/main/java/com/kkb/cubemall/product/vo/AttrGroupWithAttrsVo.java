@@ -1,6 +1,5 @@
 package com.kkb.cubemall.product.vo;
 
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.kkb.cubemall.product.entity.AttrEntity;
 import lombok.Data;
 
@@ -8,12 +7,13 @@ import java.util.List;
 
 @Data
 public class AttrGroupWithAttrsVo {
+
     /**
-     * 自增ID
+     * 分组id
      */
     private Long id;
     /**
-     * 名称
+     * 组名
      */
     private String name;
     /**
@@ -25,15 +25,14 @@ public class AttrGroupWithAttrsVo {
      */
     private String descript;
     /**
-     * 图表
+     * 组图标
      */
     private String icon;
     /**
-     * 分类ID
+     * 所属分类id
      */
-    private Integer categoryId;
-    /**
-     * 当前属性分组关联的属性集
-     */
+    private Long categoryId;
+
+
     private List<AttrEntity> attrs;
 }

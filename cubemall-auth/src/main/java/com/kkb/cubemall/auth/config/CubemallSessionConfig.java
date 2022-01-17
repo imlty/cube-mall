@@ -7,6 +7,9 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.session.web.http.CookieSerializer;
 import org.springframework.session.web.http.DefaultCookieSerializer;
 
+/**
+ * @author 96217
+ */
 @Configuration
 public class CubemallSessionConfig {
 

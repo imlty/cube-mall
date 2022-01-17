@@ -7,9 +7,9 @@ spring:
     #MySQL配置
     driverClassName: com.mysql.cj.jdbc.Driver
     #url: jdbc:mysql://47.113.81.149:3306/cube_goods?useUnicode=true&characterEncoding=UTF-8&useSSL=false
-    url: jdbc:mysql://localhost:3306/cube_user?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://112.124.39.204:3306/cube_user?useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: root
-    password: root
+    password: 123456
   application:
       name: cubemall-auth
   cloud:

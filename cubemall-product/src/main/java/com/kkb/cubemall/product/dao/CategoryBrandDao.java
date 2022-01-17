@@ -7,9 +7,9 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 分类品牌关系表
  * 
- * @author peige
- * @email peige@gmail.com
- * @date 2021-04-19 18:24:09
+ * @author jiaoshou
+ * @email seaizon@gmail.com
+ * @date 2021-04-09 17:17:06
  */
 @Mapper
 public interface CategoryBrandDao extends BaseMapper<CategoryBrandEntity> {

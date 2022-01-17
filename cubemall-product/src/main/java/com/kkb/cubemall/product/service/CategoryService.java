@@ -10,20 +10,20 @@ import java.util.Map;
 /**
  * 商品类目
  *
- * @author peige
- * @email peige@gmail.com
- * @date 2021-04-19 18:24:09
+ * @author jiaoshou
+ * @email seaizon@gmail.com
+ * @date 2021-04-06 10:32:36
  */
 public interface CategoryService extends IService<CategoryEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
-    List<CategoryEntity> listWithTree();
 
-    void removeMenuByIds(List<Integer> asList);
+    List<CategoryEntity> listTree();
 
-    Long[] findCategoryPath(Integer categoryId);
+    void removeNodesByIds(List<Integer> asList);
 
-    List<CategoryEntity> getLevel1Categories();
+
+    Integer[] findCategoryPath(Integer categoryId);
 }
 

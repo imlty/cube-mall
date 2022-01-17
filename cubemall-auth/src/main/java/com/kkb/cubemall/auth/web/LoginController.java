@@ -59,7 +59,7 @@ public class LoginController {
      * @Version: 1.0
      */
     @RequestMapping("/login")
-    public String login(UserDTO userDTO,
+    public String login(Use rDTO userDTO,
                         Model model,
                         HttpServletRequest request,
                         HttpServletResponse response, HttpSession session){

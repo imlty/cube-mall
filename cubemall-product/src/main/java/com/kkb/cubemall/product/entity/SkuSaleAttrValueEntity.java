@@ -10,9 +10,9 @@ import lombok.Data;
 /**
  * sku销售属性值
  * 
- * @author peige
- * @email peige@gmail.com
- * @date 2021-04-19 18:24:09
+ * @author jiaoshou
+ * @email seaizon@gmail.com
+ * @date 2021-04-13 20:26:25
  */
 @Data
 @TableName("tb_sku_sale_attr_value")

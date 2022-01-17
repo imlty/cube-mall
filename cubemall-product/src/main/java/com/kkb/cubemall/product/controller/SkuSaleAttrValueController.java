@@ -1,10 +1,9 @@
 package com.kkb.cubemall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
-import com.kkb.cubemall.common.utils.PageUtils;
-import com.kkb.cubemall.common.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,15 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kkb.cubemall.product.entity.SkuSaleAttrValueEntity;
 import com.kkb.cubemall.product.service.SkuSaleAttrValueService;
+import com.kkb.cubemall.common.utils.PageUtils;
+import com.kkb.cubemall.common.utils.R;
 
 
 
 /**
  * sku销售属性值
  *
- * @author peige
- * @email peige@gmail.com
- * @date 2021-04-22 11:03:03
+ * @author jiaoshou
+ * @email seaizon@gmail.com
+ * @date 2021-04-13 20:26:25
  */
 @RestController
 @RequestMapping("product/skusaleattrvalue")
@@ -34,7 +35,6 @@ public class SkuSaleAttrValueController {
      * 列表
      */
     @RequestMapping("/list")
-    //@RequiresPermissions("product:skusaleattrvalue:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = skuSaleAttrValueService.queryPage(params);
 
@@ -46,7 +46,6 @@ public class SkuSaleAttrValueController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    //@RequiresPermissions("product:skusaleattrvalue:info")
     public R info(@PathVariable("id") Long id){
 		SkuSaleAttrValueEntity skuSaleAttrValue = skuSaleAttrValueService.getById(id);
 
@@ -57,7 +56,6 @@ public class SkuSaleAttrValueController {
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("product:skusaleattrvalue:save")
     public R save(@RequestBody SkuSaleAttrValueEntity skuSaleAttrValue){
 		skuSaleAttrValueService.save(skuSaleAttrValue);
 
@@ -68,7 +66,6 @@ public class SkuSaleAttrValueController {
      * 修改
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("product:skusaleattrvalue:update")
     public R update(@RequestBody SkuSaleAttrValueEntity skuSaleAttrValue){
 		skuSaleAttrValueService.updateById(skuSaleAttrValue);
 
@@ -79,11 +76,17 @@ public class SkuSaleAttrValueController {
      * 删除
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("product:skusaleattrvalue:delete")
     public R delete(@RequestBody Long[] ids){
 		skuSaleAttrValueService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
+    }
+
+
+    @RequestMapping("/sale/{skuId}")
+    public List<String> getSaleAttrsString(@PathVariable("skuId") Long skuId){
+        List<String> saleAttrsString = skuSaleAttrValueService.getSaleAttrsString(skuId);
+        return saleAttrsString;
     }
 
 }

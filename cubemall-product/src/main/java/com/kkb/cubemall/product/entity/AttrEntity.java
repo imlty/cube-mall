@@ -1,5 +1,6 @@
 package com.kkb.cubemall.product.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -9,10 +10,10 @@ import lombok.Data;
 
 /**
  * 属性表
- * 
- * @author peige
- * @email peige@gmail.com
- * @date 2021-04-19 18:24:09
+ *
+ * @author jiaoshou
+ * @email seaizon@gmail.com
+ * @date 2021-04-09 14:04:42
  */
 @Data
 @TableName("tb_attr")
@@ -41,7 +42,7 @@ public class AttrEntity implements Serializable {
 	 */
 	private String valueSelect;
 	/**
-	 * 属性类型:0-销售属性,1-基本属性,2-既是基本属性又是销售属性
+	 * 属性类型
 	 */
 	private Integer attrType;
 	/**
@@ -56,5 +57,8 @@ public class AttrEntity implements Serializable {
 	 * 描述
 	 */
 	private Integer showDesc;
+
+
+
 
 }

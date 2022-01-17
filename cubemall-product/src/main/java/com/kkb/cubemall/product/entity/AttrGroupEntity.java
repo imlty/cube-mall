@@ -10,10 +10,10 @@ import lombok.Data;
 
 /**
  * 属性分组表
- * 
- * @author peige
- * @email peige@gmail.com
- * @date 2021-04-19 18:24:09
+ *
+ * @author jiaoshou
+ * @email seaizon@gmail.com
+ * @date 2021-04-09 14:04:42
  */
 @Data
 @TableName("tb_attr_group")
@@ -46,10 +46,7 @@ public class AttrGroupEntity implements Serializable {
 	 */
 	private Integer categoryId;
 
-	/**
-	 * 完整的categoryID的路径
-	 */
-	@TableField(exist = false)
-	private Long[] categoryPath;
 
-}
+	@TableField(exist = false)
+	private Integer[] categoryPath;
+ }

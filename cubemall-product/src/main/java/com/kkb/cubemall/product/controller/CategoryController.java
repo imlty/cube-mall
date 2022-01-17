@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.kkb.cubemall.common.utils.PageUtils;
-import com.kkb.cubemall.common.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,15 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kkb.cubemall.product.entity.CategoryEntity;
 import com.kkb.cubemall.product.service.CategoryService;
+import com.kkb.cubemall.common.utils.PageUtils;
+import com.kkb.cubemall.common.utils.R;
 
 
 
 /**
  * 商品类目
  *
- * @author peige
- * @email peige@gmail.com
- * @date 2021-04-22 11:03:03
+ * @author jiaoshou
+ * @email seaizon@gmail.com
+ * @date 2021-04-06 10:32:36
  */
 @RestController
 @RequestMapping("product/category")
@@ -31,23 +31,33 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    /**
-     * 查询出所有分类,以树形结构组装起来
-     */
-    @RequestMapping("/list/tree")
-    //@RequiresPermissions("product:category:list")
-    public R list(){
-        List<CategoryEntity> entities = categoryService.listWithTree();
 
-        return R.ok().put("data", entities);
+
+    /**
+     * 树状展示
+     */
+    @RequestMapping("/tree")
+    public R tree(){
+        List<CategoryEntity> tree = categoryService.listTree();
+
+        return R.ok().put("data", tree);
+    }
+
+    /**
+     * 列表
+     */
+    @RequestMapping("/list")
+    public R list(@RequestParam Map<String, Object> params){
+        PageUtils page = categoryService.queryPage(params);
+
+        return R.ok().put("page", page);
     }
 
 
     /**
-     * 信息
+     *根据id获取分类信息，先查询节点已有信息
      */
     @RequestMapping("/info/{id}")
-    //@RequiresPermissions("product:category:info")
     public R info(@PathVariable("id") Integer id){
 		CategoryEntity category = categoryService.getById(id);
 
@@ -58,7 +68,6 @@ public class CategoryController {
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("product:category:save")
     public R save(@RequestBody CategoryEntity category){
 		categoryService.save(category);
 
@@ -69,7 +78,6 @@ public class CategoryController {
      * 修改
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("product:category:update")
     public R update(@RequestBody CategoryEntity category){
 		categoryService.updateById(category);
 
@@ -80,15 +88,9 @@ public class CategoryController {
      * 删除
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("product:category:delete")
     public R delete(@RequestBody Integer[] ids){
-        //直接删除方式
-		//categoryService.removeByIds(Arrays.asList(ids));
-
-        //TODO 检查当前要删除的菜单,是否被别的地方引用
-        //逻辑删除方式
-        categoryService.removeMenuByIds(Arrays.asList(ids));
-
+//		categoryService.removeByIds(Arrays.asList(ids));
+        categoryService.removeNodesByIds(Arrays.asList(ids));
         return R.ok();
     }
 

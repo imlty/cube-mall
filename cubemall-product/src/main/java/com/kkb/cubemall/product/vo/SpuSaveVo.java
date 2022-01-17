@@ -1,13 +1,11 @@
-/**
-  * Copyright 2021 json.cn 
-  */
 package com.kkb.cubemall.product.vo;
+
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
+//接收客户端传入的json
 @Data
 public class SpuSaveVo {
 
@@ -21,5 +19,7 @@ public class SpuSaveVo {
     private List<String> images;
     private List<BaseAttrs> baseAttrs;
     private List<Skus> skus;
+
+
 
 }
