@@ -11,14 +11,19 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>cubemall-common</module>
         <module>cubemall-product</module>
-        <module>cubemall-ware</module>
-        <module>cubemall-search</module>
         <module>renren-fast</module>
         <module>renren-generator</module>
-        <module>cubemall-common</module>
+        <module>cubemall-third-party</module>
         <module>cubemall-gateway</module>
-        <module>cubemall-thrid-party</module>
+        <module>cubemall-search</module>
+        <module>cubemall-canal</module>
+        <module>cubemall-coupon</module>
+        <module>cubemall-auth</module>
+        <module>cubemall-seckill</module>
+        <module>cubemall-order</module>
+        <module>cubemall-cart</module>
     </modules>
 
 </project>
