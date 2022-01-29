@@ -14,22 +14,15 @@ import lombok.Data;
 
 /**
  * 商品类目
- * 
- * @author peige
- * @email peige@gmail.com
- * @date 2021-04-19 18:24:09
+ *
+ * @author jiaoshou
+ * @email seaizon@gmail.com
+ * @date 2021-04-06 10:32:36
  */
 @Data
 @TableName("tb_category")
 public class CategoryEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * 子分类
-	 */
-	@JsonInclude(JsonInclude.Include.NON_EMPTY)
-	@TableField(exist=false)
-	private List<CategoryEntity> childrens;
 
 	/**
 	 * 分类ID
@@ -47,7 +40,7 @@ public class CategoryEntity implements Serializable {
 	/**
 	 * 是否显示
 	 */
-	@TableLogic(value="1", delval = "0")
+	@TableLogic(value = "1",delval = "0")
 	private String isShow;
 	/**
 	 * 是否导航
@@ -66,4 +59,9 @@ public class CategoryEntity implements Serializable {
 	 */
 	private Integer templateId;
 
+
+	//一个节点包含N个子节点
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@TableField(exist = false)
+	private List<CategoryEntity> childrens;
 }

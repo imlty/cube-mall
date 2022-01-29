@@ -13,5 +13,28 @@
         <result property="categoryId" column="category_id"/>
     </resultMap>
 
+    <resultMap id="spuAttrGroupMap" type="com.kkb.cubemall.product.vo.SpuAttrGroupVo">
+        <result property="groupName" column="groupName"></result>
+        <collection property="attrs" ofType="com.kkb.cubemall.product.vo.Attr">
+            <result property="attrName" column="attrName"></result>
+            <result property="attrValue" column="attrValue"></result>
+        </collection>
+    </resultMap>
+
+    <!--SQL：根据spuID,categoryId 查询 sku分组规格参数属性值-->
+    <select id="getGroupAttr" resultMap="spuAttrGroupMap" parameterType="com.kkb.cubemall.product.vo.GroupAttrParamVo">
+        SELECT
+          g.name AS groupName,
+          v.attr_name AS attrName,
+          v.attr_value AS attrValue
+        FROM
+          tb_product_attr_value v
+          JOIN tb_attr_attrgroup_relation r
+            ON v.attr_id = r.attr_id
+          JOIN tb_attr_group g
+            ON r.attr_group_id = g.id
+        WHERE v.spu_id = #{spuId}
+          AND g.category_id = #{categoryId}
+    </select>
 
 </mapper>

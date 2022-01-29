@@ -2,40 +2,56 @@ package com.kkb.cubemall.search.model;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 
-/**
- * @author 96217
- */
+@Document(indexName = "cube_goods")
 @Data
-@Document(indexName = "goods_1", shards = 5, replicas = 1)
-public class SpuInfo {
+public class SpuInfo implements Serializable {
+    //商品id，同时也是商品编号
     @Id
-    @Field(type = FieldType.Long)
+    @Field(index = true, store = true, type = FieldType.Long)
     private Long id;
-    @Field(type = FieldType.Text, store = true, analyzer = "ik_max_word")
+
+    //SPU名称
+    @Field(index = true, store = true, type = FieldType.Text, analyzer = "ik_smart")
     private String spuName;
-    @Field(type = FieldType.Text, store = true, analyzer = "ik_max_word")
-    private String spuDescription;
-    @Field(type = FieldType.Long)
-    private Long categoryId;
-    @Field(type = FieldType.Keyword, store = true)
-    private String categoryName;
-    @Field(type = FieldType.Long)
-    private Long brandId;
-    @Field(type = FieldType.Keyword, store = true)
-    private String brandName;
-    @Field(type = FieldType.Keyword, store = true, index = false)
-    private String brandImage;
-    @Field(type = FieldType.Date, store = true, format = DateFormat.basic_date_time)
-    private Date updateTime;
-    @Field(type = FieldType.Keyword, store = true, index = false)
-    private String imgUrl;
-    @Field(type = FieldType.Double, store = true)
+
+    //商品简介
+    @Field(index = true, store = true, type = FieldType.Text, analyzer = "ik_smart")
+    private String description;
+
+    //商品价格，单位为：元
+    @Field(index = true, store = true, type = FieldType.Double)
     private Double price;
+
+    //商品图片
+    @Field(index = false, store = true, type = FieldType.Text)
+    private String image;
+
+    //类目ID
+    @Field(index = true, store = true, type = FieldType.Long)
+    private Long categoryId;
+
+    //类目名称
+    @Field(index = true, store = true,type = FieldType.Keyword)
+    private String categoryName;
+
+
+    //品牌ID
+    @Field(index = true, store = true, type = FieldType.Long)
+        private Long brandId;
+
+    //品牌名称
+    @Field(index = true, store = true,type = FieldType.Keyword)
+    private String brandName;
+
+    //更新时间
+    private Date updateTime;
+
 }

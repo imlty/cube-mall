@@ -18,7 +18,7 @@ public class AttrVo {
      */
     private Integer searchType;
     /**
-     * 图标
+     * 图表
      */
     private String icon;
     /**
@@ -26,7 +26,7 @@ public class AttrVo {
      */
     private String valueSelect;
     /**
-     * 属性类型:0-销售属性,1-基本属性,2-既是基本属性又是销售属性
+     * 属性类型
      */
     private Integer attrType;
     /**
@@ -41,8 +41,9 @@ public class AttrVo {
      * 描述
      */
     private Integer showDesc;
+
     /**
-     * 分组ID
+     * 属性分组ID
      */
     private Long attrGroupId;
 }

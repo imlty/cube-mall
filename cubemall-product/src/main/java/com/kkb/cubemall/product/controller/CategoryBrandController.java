@@ -6,71 +6,58 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.kkb.cubemall.common.utils.PageUtils;
-import com.kkb.cubemall.common.utils.R;
 import com.kkb.cubemall.product.entity.BrandEntity;
-import com.kkb.cubemall.product.service.BrandService;
-import com.kkb.cubemall.product.service.CategoryService;
 import com.kkb.cubemall.product.vo.BrandVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.kkb.cubemall.product.entity.CategoryBrandEntity;
 import com.kkb.cubemall.product.service.CategoryBrandService;
+import com.kkb.cubemall.common.utils.PageUtils;
+import com.kkb.cubemall.common.utils.R;
+
 
 
 /**
  * 分类品牌关系表
  *
- * @author peige
- * @email peige@gmail.com
- * @date 2021-04-22 11:03:03
+ * @author jiaoshou
+ * @email seaizon@gmail.com
+ * @date 2021-04-09 17:17:06
  */
 @RestController
 @RequestMapping("product/categorybrand")
 public class CategoryBrandController {
     @Autowired
     private CategoryBrandService categoryBrandService;
-    @Autowired
-    private CategoryService categoryService;
-    @Autowired
-    private BrandService brandService;
-
-    /**
-     * 获取分类关联的品牌
-     * @return
-     */
-    @GetMapping("/brands/list")
-    public R relationBrandList(@RequestParam("categoryId") Integer categoryId){
-        List<BrandEntity> brandEntities = categoryBrandService.getBrandByCategoryId(categoryId);
-
-        List<BrandVo> collect = brandEntities.stream().map(brandEntity -> {
-            BrandVo brandVo = new BrandVo();
-            brandVo.setBrandId(brandEntity.getId());
-            brandVo.setBrandName(brandEntity.getName());
-            return brandVo;
-        }).collect(Collectors.toList());
-
-        return R.ok().put("data", collect);
-    }
-
 
     /**
      * 列表
      */
-    @RequestMapping("/category/list")
-    //@RequiresPermissions("product:categorybrand:list")
-    public R list(@RequestParam("brandId") Long brandid){
-        List<CategoryBrandEntity> data = categoryBrandService.list(
-                new QueryWrapper<CategoryBrandEntity>().eq("brand_id", brandid)
-        );
-        data.forEach(categoryBrandEntity -> {
-            categoryBrandEntity.setCategoryName(categoryService.getById(categoryBrandEntity.getCategoryId()).getName());
-            categoryBrandEntity.setBrandName(brandService.getById(categoryBrandEntity.getBrandId()).getName());
-        });
+    @RequestMapping("/list")
+    public R list(@RequestParam Map<String, Object> params){
+        PageUtils page = categoryBrandService.queryPage(params);
+
+        return R.ok().put("page", page);
+    }
+
+    /**
+     * 根据品牌ID查询分类列表
+     * @param brandId 品牌ID
+     * @return
+     */
+    @GetMapping("/category/list")
+    public R categorylist(@RequestParam("brandId") Integer brandId){
+
+        QueryWrapper<CategoryBrandEntity> queryWrapper = new QueryWrapper<>();
+
+        List<CategoryBrandEntity> data = categoryBrandService.getCategoryBrands(queryWrapper.eq("brand_id",brandId));
 
         return R.ok().put("data", data);
     }
+
+
+
 
 
     /**
@@ -88,7 +75,6 @@ public class CategoryBrandController {
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("product:categorybrand:save")
     public R save(@RequestBody CategoryBrandEntity categoryBrand){
 		categoryBrandService.save(categoryBrand);
 
@@ -106,19 +92,36 @@ public class CategoryBrandController {
         return R.ok();
     }
 
-    /**
-     * 删除
-     */
     @RequestMapping("/delete")
-    //@RequiresPermissions("product:categorybrand:delete")
-    public R delete(@RequestBody CategoryBrandEntity categoryBrandEntity){
-		//categoryBrandService.removeByIds(Arrays.asList(ids));
-
-        categoryBrandService.remove(
-                new QueryWrapper<CategoryBrandEntity>().eq("brand_id", categoryBrandEntity.getBrandId()).eq("category_id",categoryBrandEntity.getCategoryId())
-        );
+    public R delete(@RequestBody CategoryBrandEntity categoryBrand){
+        QueryWrapper<CategoryBrandEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("brand_id",categoryBrand.getBrandId()).
+                eq("category_id",categoryBrand.getCategoryId());
+        categoryBrandService.removeCategoryBrandEntity(queryWrapper);
 
         return R.ok();
     }
+
+    /**
+     * 根据分类id查询品牌
+     * @param categoryId
+     * @return
+     */
+    @GetMapping("/brands/list")
+    //@RequiresPermissions("product:categorybrand:info")
+    public R relationBrandsList(@RequestParam("categoryId") Integer categoryId){
+        List<BrandEntity> vos = categoryBrandService.getBrandsByCategoryId(categoryId);
+
+        //返回brandVo
+        List<BrandVo> collect = vos.stream().map(item->{
+            BrandVo brandVo = new BrandVo();
+            brandVo.setBrandId(item.getId());
+            brandVo.setBrandName(item.getName());
+            return brandVo;
+        }).collect(Collectors.toList());
+
+        return R.ok().put("data", collect);
+    }
+
 
 }

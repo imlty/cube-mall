@@ -1,5 +1,5 @@
 /**
-  * Copyright 2021 json.cn 
+  * Copyright 2019 bejson.com
   */
 package com.kkb.cubemall.product.vo;
 import lombok.Data;
@@ -7,6 +7,12 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+http://
+ *  *
+ *  * @author bejson.com (i@bejson.com)
+ *  * @website https://www.bejson.com/json2javapojo/new/
+ */
 @Data
 public class Skus {
 
@@ -21,5 +27,6 @@ public class Skus {
     private int countStatus;
     private BigDecimal fullPrice;
     private int priceStatus;
+
 
 }

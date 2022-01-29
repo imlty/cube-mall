@@ -3,8 +3,6 @@ package com.kkb.cubemall.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 
-import com.kkb.cubemall.common.utils.PageUtils;
-import com.kkb.cubemall.common.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,15 +12,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kkb.cubemall.product.entity.SpuInfoDescEntity;
 import com.kkb.cubemall.product.service.SpuInfoDescService;
+import com.kkb.cubemall.common.utils.PageUtils;
+import com.kkb.cubemall.common.utils.R;
 
 
 
 /**
  * spu描述
  *
- * @author peige
- * @email peige@gmail.com
- * @date 2021-04-22 11:03:03
+ * @author jiaoshou
+ * @email seaizon@gmail.com
+ * @date 2021-04-13 20:26:25
  */
 @RestController
 @RequestMapping("product/spuinfodesc")
@@ -34,7 +34,6 @@ public class SpuInfoDescController {
      * 列表
      */
     @RequestMapping("/list")
-    //@RequiresPermissions("product:spuinfodesc:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = spuInfoDescService.queryPage(params);
 
@@ -46,7 +45,6 @@ public class SpuInfoDescController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    //@RequiresPermissions("product:spuinfodesc:info")
     public R info(@PathVariable("id") Long id){
 		SpuInfoDescEntity spuInfoDesc = spuInfoDescService.getById(id);
 
@@ -57,7 +55,6 @@ public class SpuInfoDescController {
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("product:spuinfodesc:save")
     public R save(@RequestBody SpuInfoDescEntity spuInfoDesc){
 		spuInfoDescService.save(spuInfoDesc);
 
@@ -68,7 +65,6 @@ public class SpuInfoDescController {
      * 修改
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("product:spuinfodesc:update")
     public R update(@RequestBody SpuInfoDescEntity spuInfoDesc){
 		spuInfoDescService.updateById(spuInfoDesc);
 
@@ -79,7 +75,6 @@ public class SpuInfoDescController {
      * 删除
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("product:spuinfodesc:delete")
     public R delete(@RequestBody Long[] ids){
 		spuInfoDescService.removeByIds(Arrays.asList(ids));
 

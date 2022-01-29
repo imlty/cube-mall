@@ -2,52 +2,48 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: baidu_route
-          uri: https://www.baidu.com
-          predicates:
-            - Query=url, baidu
 
-        - id: tencent_route
-          uri: https://www.qq.com
-          predicates:
-            - Query=url, qq
 
-        # cubemall-third-part 微服务 /api/thirdparty/** -> /**
-        - id: third-party_route
-          uri: lb://cubemall-third-part
-          predicates:
-            - Path=/api/thirdparty/**
-          filters:
-            - RewritePath=/api/thirdparty/(?<segment>/?.*),/$\{segment}
-
-        # product 微服务 /api/product/** -> /product/**
         - id: product_route
           uri: lb://cubemall-product
           predicates:
             - Path=/api/product/**
           filters:
-            - RewritePath=/api/(?<segment>/?.*),/$\{segment}
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
 
-        # ware 微服务 /api/ware/** -> /product/**
-        - id: product_route
-          uri: lb://cubemall-ware
+        - id: coupon_route
+          uri: lb://cubemall-coupon
           predicates:
-            - Path=/api/ware/**
+            - Path=/api/coupon/**
           filters:
             - RewritePath=/api/(?<segment>/?.*),/$\{segment}
 
+        - id: third_party_route
+          uri: lb://cubemall-third-party
+          predicates:
+            - Path=/api/thirdparty/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
 
-
-        # renren-fast 微服务 /api/** -> /renren-fast/**
         - id: admin_route
           uri: lb://renren-fast
           predicates:
-          - Path=/api/**
+            - Path=/api/**
           filters:
-          - RewritePath=/api/(?<segment>/?.*),/renren-fast/$\{segment}
+            - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
 
-        # product 微服务 中的首页
-        - id: cubemall_host_route
+        - id: cubemall_auth_route
+          uri: lb://cubemall-auth
+          predicates:
+            - Host=auth.cubemall.com
+
+
+        - id: cubemall_seckill_route
+          uri: lb://cubemall-seckill
+          predicates:
+            - Host=seckill.cubemall.com
+
+        - id: cubemall_item_route
           uri: lb://cubemall-product
           predicates:
-            - Host=**.cube.com
+            - Host=item.cubemall.com

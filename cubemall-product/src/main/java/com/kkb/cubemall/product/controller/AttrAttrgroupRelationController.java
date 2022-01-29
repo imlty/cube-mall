@@ -3,8 +3,6 @@ package com.kkb.cubemall.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 
-import com.kkb.cubemall.common.utils.PageUtils;
-import com.kkb.cubemall.common.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,15 +12,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kkb.cubemall.product.entity.AttrAttrgroupRelationEntity;
 import com.kkb.cubemall.product.service.AttrAttrgroupRelationService;
+import com.kkb.cubemall.common.utils.PageUtils;
+import com.kkb.cubemall.common.utils.R;
 
 
 
 /**
  * 属性分组关联表
  *
- * @author peige
- * @email peige@gmail.com
- * @date 2021-04-22 11:03:03
+ * @author jiaoshou
+ * @email seaizon@gmail.com
+ * @date 2021-04-09 14:04:42
  */
 @RestController
 @RequestMapping("product/attrattrgrouprelation")

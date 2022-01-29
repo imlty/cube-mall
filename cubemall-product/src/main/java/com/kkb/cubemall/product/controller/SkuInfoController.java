@@ -1,11 +1,9 @@
 package com.kkb.cubemall.product.controller;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Map;
 
-import com.kkb.cubemall.common.utils.PageUtils;
-import com.kkb.cubemall.common.utils.R;
-import com.kkb.cubemall.product.vo.SpuSaveVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,15 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kkb.cubemall.product.entity.SkuInfoEntity;
 import com.kkb.cubemall.product.service.SkuInfoService;
+import com.kkb.cubemall.common.utils.PageUtils;
+import com.kkb.cubemall.common.utils.R;
 
 
 
 /**
  * sku
  *
- * @author peige
- * @email peige@gmail.com
- * @date 2021-04-22 11:03:03
+ * @author jiaoshou
+ * @email seaizon@gmail.com
+ * @date 2021-04-13 20:26:25
  */
 @RestController
 @RequestMapping("product/skuinfo")
@@ -37,7 +37,7 @@ public class SkuInfoController {
     @RequestMapping("/list")
     //@RequiresPermissions("product:skuinfo:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = skuInfoService.queryPageByCondition(params);
+        PageUtils page = skuInfoService.queryPage(params);
 
         return R.ok().put("page", page);
     }
@@ -58,9 +58,8 @@ public class SkuInfoController {
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("product:skuinfo:save")
-    public R save(@RequestBody SkuInfoEntity skuInfoEntity){
-        skuInfoService.save(skuInfoEntity);
+    public R save(@RequestBody SkuInfoEntity skuInfo){
+		skuInfoService.save(skuInfo);
 
         return R.ok();
     }
@@ -69,7 +68,6 @@ public class SkuInfoController {
      * 修改
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("product:skuinfo:update")
     public R update(@RequestBody SkuInfoEntity skuInfo){
 		skuInfoService.updateById(skuInfo);
 
@@ -80,11 +78,26 @@ public class SkuInfoController {
      * 删除
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("product:skuinfo:delete")
     public R delete(@RequestBody Long[] ids){
 		skuInfoService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
+    }
+
+    /**
+     * @Description: 根据skuID查询商品的最新价格信息
+     * @Author: hubin
+     * @CreateDate: 2021/5/31 15:55
+     * @UpdateUser: hubin
+     * @UpdateDate: 2021/5/31 15:55
+     * @UpdateRemark: 修改内容
+     * @Version: 1.0
+     */
+    @RequestMapping("/price/{skuId}")
+    public BigDecimal getPrice(@PathVariable("skuId") Long skuId){
+        SkuInfoEntity skuInfoEntity = skuInfoService.getById(skuId);
+        // 获取最新价格信息
+        return skuInfoEntity.getPrice();
     }
 
 }

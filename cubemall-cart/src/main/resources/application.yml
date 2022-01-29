@@ -1,0 +1,30 @@
+server:
+  port: 8083
+
+# mysql
+spring:
+  application:
+      name: cubemall-cart
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 8.133.162.34:8848
+  redis:
+    port: 6379
+    host: 8.133.188.83
+    password: ithubin@163.com
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: flag  # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+logging:
+  level:
+    com.kkb.cubemall: debug
+# 配置连接池
+cubemall:
+  thread:
+    coreSize: 20
+    maxSize: 100
+    keepAliveTime: 10

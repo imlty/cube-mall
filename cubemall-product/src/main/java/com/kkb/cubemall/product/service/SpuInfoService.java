@@ -11,18 +11,18 @@ import java.util.Map;
 /**
  * spu信息
  *
- * @author peige
- * @email peige@gmail.com
- * @date 2021-04-19 18:24:09
+ * @author jiaoshou
+ * @email seaizon@gmail.com
+ * @date 2021-04-13 20:26:25
  */
 public interface SpuInfoService extends IService<SpuInfoEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
-    void saveSpuInfo(SpuSaveVo spuSaveVo);
+    void saveBeaseSpuInfo(SpuInfoEntity infoEntity);
 
-    PageUtils queryPageByConditon(Map<String, Object> params);
+    void saveSpuInfo(SpuSaveVo vo);
 
-    R putOnSale(Long souId) throws Exception;
+    R putOnSale(Long spuId) throws Exception;
 }
 

@@ -3,7 +3,7 @@ package com.kkb.cubemall.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kkb.cubemall.common.utils.PageUtils;
 import com.kkb.cubemall.product.entity.AttrEntity;
-import com.kkb.cubemall.product.vo.AttrGroupRelationVo;
+import com.kkb.cubemall.product.vo.AttrGroupReationVo;
 import com.kkb.cubemall.product.vo.AttrRespVo;
 import com.kkb.cubemall.product.vo.AttrVo;
 
@@ -13,25 +13,28 @@ import java.util.Map;
 /**
  * 属性表
  *
- * @author peige
- * @email peige@gmail.com
- * @date 2021-04-19 18:24:09
+ * @author jiaoshou
+ * @email seaizon@gmail.com
+ * @date 2021-04-09 14:04:42
  */
 public interface AttrService extends IService<AttrEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
-    void saveAttr(AttrVo attrVo);
-
-    PageUtils queryBaseAttrPage(Map<String, Object> params, Long categoryId, String attrType);
 
     AttrRespVo getAttrInfo(Long id);
+
+
+
+    void saveAttr(AttrVo attr);
+
+    PageUtils queryBaseAttrPage(Map<String, Object> params, Integer categoryId, String attrType);
 
     void updateAttr(AttrVo attrVo);
 
     List<AttrEntity> getRelationAttr(Long attrGroupId);
 
-    void deleteRelation(AttrGroupRelationVo[] vos);
+    void deleteRalation(AttrGroupReationVo[] vos);
 
     PageUtils getNoRelationAttr(Map<String, Object> params, Long attrGroupId);
 }
