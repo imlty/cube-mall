@@ -36,7 +36,7 @@ public class AsycFutureDemo {
         //public <U> CompletionStage<U> handle(BiFunction<? super T, Throwable, ? extends U> fn);
         // try{}finally{} : 对上一步执行结果进行处理，还可以处理异常任务
 
-
+ConcurrentHashMap
         log.info("主线程start............");
         // 第一个：CompletionStage
         CompletableFuture<Integer> f = CompletableFuture.supplyAsync(() -> {
